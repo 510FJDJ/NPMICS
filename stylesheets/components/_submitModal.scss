@@ -1,0 +1,73 @@
+// ============================================================
+// 確認／成功 Modal：送出前警語確認、儲存成功提示
+// 疊在 Bootstrap 5 modal 結構上
+// ============================================================
+
+.submitModal .modal-content {
+    border: 0;
+    border-radius: 16px;
+    background-color: $white;
+}
+
+.submitModal .modal-header {
+    padding: 20px 24px 0;
+    border-bottom: 0;
+}
+
+.submitModal .modal-body {
+    padding: 8px 24px 16px;
+}
+
+.submitModal .modal-footer {
+    padding: 0 24px 24px;
+    border-top: 0;
+    gap: 12px;
+}
+
+.submitModal-title {
+    margin: 0 0 8px;
+    font-size: 1.375rem;
+}
+
+.submitModal-desc {
+    color: $text-100;
+    font-size: 1rem;
+    line-height: 1.7;
+
+    strong {
+        color: $danger-100;
+    }
+}
+
+// 成功樣式：綠色圓框勾勾
+.submitModal-successIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    border: 2px solid $success-100;
+    border-radius: 999px;
+    color: $success-100;
+    font-size: 2rem;
+}
+
+.submitModal--center .modal-body {
+    text-align: center;
+}
+
+// 警語條列：送出前不可修改等預告事項
+.submitModal-noticeList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0 0;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background-color: #FDF6E3;
+    list-style: none;
+    color: $warning-100;
+    font-size: 1rem;
+    line-height: 1.7;
+}

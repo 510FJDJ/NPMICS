@@ -1,0 +1,59 @@
+// ============================================================
+// 框線式勾選卡片（仿基隆 KGIS choiceCard）：
+// 整張卡片（含文字）皆為 label 可點選範圍，
+// 外圍框線＋hover／勾選後轉主色淡底，鍵盤焦點以 focus-within 呈現
+// ============================================================
+
+.checkCard {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 20px;
+    border: 1px solid $border-100;
+    border-radius: 8px;
+    background-color: $white;
+    color: $text-100;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color $dur-ui $ease-brand, background-color $dur-ui $ease-brand;
+
+    &:hover {
+        border-color: $primary-100;
+    }
+
+    // 勾選後：主色框線＋主色淡底
+    &:has(input:checked) {
+        border-color: $primary-100;
+        background-color: $primary-10;
+    }
+
+    // 鍵盤焦點移入 checkbox 時，改以整張卡片外框呈現焦點
+    &:focus-within {
+        outline: 3px solid $focus;
+        outline-offset: 2px;
+    }
+
+    input[type="checkbox"] {
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        margin-top: 3px;
+        accent-color: $primary-100;
+        cursor: pointer;
+
+        // 焦點已由卡片 focus-within 呈現，避免雙重外框
+        &:focus-visible {
+            outline: none;
+        }
+    }
+}
+
+.checkCard-text {
+    line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .checkCard {
+        transition: none;
+    }
+}

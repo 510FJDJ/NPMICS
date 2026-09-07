@@ -1,0 +1,256 @@
+// ============================================================
+// 表單欄位（design.md §3、ACCESSIBILITY.md §11）：label 永久可見、必填 pill、
+// 密碼顯示切換、錯誤訊息單行文字、圖形驗證碼附語音播放
+// ============================================================
+
+.formField {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formField-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $text-100;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+// 必填標示：pill badge（不可只用星號顏色）
+.requiredPill {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background-color: #FEF3E7;
+    color: $warning-100;
+    font-size: .875rem;
+    font-weight: 500;
+    letter-spacing: .06em;
+}
+
+.inputText {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    border: 1px solid $border-100;
+    border-radius: 8px;
+    background-color: $white;
+    color: $text-100;
+    font-size: 1rem;
+    transition: border-color $dur-ui $ease-brand;
+
+    &::placeholder {
+        color: $gray-100;
+    }
+
+    &:hover {
+        border-color: $gray-100;
+    }
+
+    &[aria-invalid="true"] {
+        border-color: $danger-100;
+    }
+
+    // 系統帶入唯讀欄位（如學校名稱、班級數）：readonly 仍可聚焦與送出，僅視覺標示為鎖定
+    &:read-only {
+        background-color: $bg-100;
+        color: $text-200;
+    }
+}
+
+// 下拉選單：視覺對齊 .inputText，右側疊自訂箭頭圖示取代瀏覽器原生樣式
+.selectField {
+    width: 100%;
+    height: 48px;
+    padding: 0 40px 0 16px;
+    border: 1px solid $border-100;
+    border-radius: 8px;
+    background-color: $white;
+    color: $text-100;
+    font-size: 1rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%2364748B' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    transition: border-color $dur-ui $ease-brand;
+
+    &:hover {
+        border-color: $gray-100;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: $primary-100;
+        box-shadow: 0 0 0 3px rgba(23, 63, 143, .16);
+    }
+
+    &[aria-invalid="true"] {
+        border-color: $danger-100;
+    }
+}
+
+// 密碼欄位：右側附眼睛切換 icon
+.inputText-wrap {
+    position: relative;
+}
+
+.inputText-wrap .inputText {
+    padding-right: 48px;
+}
+
+.inputPasswordToggle {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: $gray-100;
+    cursor: pointer;
+    transition: color $dur-ui $ease-brand;
+
+    &:hover {
+        color: $primary-100;
+    }
+}
+
+// 錯誤訊息：具體單行文字（ACCESSIBILITY.md §11，不可只用框線顏色帶過）
+.formField-error {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: $danger-100;
+    font-size: 1rem;
+}
+
+// 輔助說明（如密碼格式要求、名額限制備註）
+.formField-help {
+    color: $warning-100;
+    font-size: .9375rem;
+    font-weight: 400;
+}
+
+// 中性說明（不帶提醒語氣的補充文字）
+.formField-note {
+    color: $text-200;
+    font-size: .9375rem;
+}
+
+// ---- 單行核取 ----
+.checkLine {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: $text-100;
+    font-size: 1rem;
+    cursor: pointer;
+
+    input {
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        margin-top: 3px;
+        accent-color: $primary-100;
+    }
+}
+
+// ---- 圖形驗證碼（ACCESSIBILITY.md §11：須附語音播放按鈕）----
+.captchaRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.captchaRow .inputText {
+    flex: 1;
+}
+
+.captchaImage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 120px;
+    height: 48px;
+    border: 1px solid $border-100;
+    border-radius: 8px;
+    background-color: $white;
+    overflow: hidden;
+    user-select: none;
+}
+
+.captchaImage-text {
+    display: inline-flex;
+    gap: 4px;
+    color: $primary-100;
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+}
+
+.captchaImage-text span:nth-child(2n) {
+    transform: rotate(-10deg);
+    color: $primary-200;
+}
+
+.captchaImage-text span:nth-child(3n) {
+    transform: rotate(8deg);
+}
+
+// 判讀線：斜線劃過驗證碼文字，模擬防機器人視覺
+.captchaImage::after {
+    content: "";
+    position: absolute;
+    left: -6px;
+    right: -6px;
+    top: 50%;
+    height: 1.5px;
+    background-color: rgba(23, 63, 143, .4);
+    transform: rotate(-6deg);
+}
+
+// 語音播放／換一張：文字按鈕，另起一列
+.captchaActions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.captchaAction {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 2px;
+    border: 0;
+    background: none;
+    color: $text-200;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color $dur-ui $ease-brand;
+
+    &:hover {
+        color: $primary-100;
+    }
+}
+
+// ---- 檔案上傳：選擇檔案按鈕（label for 觸發隱藏 input）＋檔名顯示 ----
+.uploadBtn-help {
+    color: $text-200;
+    font-size: .9375rem;
+    word-break: break-all;
+}
+
+.uploadField {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}

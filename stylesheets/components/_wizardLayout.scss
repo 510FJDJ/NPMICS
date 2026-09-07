@@ -1,0 +1,228 @@
+// ============================================================
+// 報名精靈頁版面：sticky 步驟列（PM 需求：步驟區塊固定位置）、
+// 滿版固定底部操作列、整體報名狀態徽章
+// ============================================================
+
+// ---- 頁面標題列：h1＋整體報名狀態 ----
+.wizardPageHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    padding: 28px 0 8px;
+}
+
+.wizardPageHeader h1 {
+    position: relative;
+    margin: 0;
+    padding-bottom: 16px;
+    font-size: 2rem;
+}
+
+// 標題底線裝飾：短黃槓（點綴用，$accent-100 不得用於文字），同 .authTitle::after
+.wizardPageHeader h1::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 64px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: $accent-100;
+}
+
+// 整體報名狀態徽章：未完成報名（紅）／已完成報名（綠），顏色＋文字並用
+.applyStatusBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.applyStatusBadge--undone {
+    background-color: #FDECEC;
+    color: $danger-100;
+}
+
+.applyStatusBadge--done {
+    background-color: #E8F5EC;
+    color: $success-100;
+}
+
+// ---- 步驟列外殼：sticky 貼齊視窗最頂（PM 需求：步驟這個區塊要固定位置）
+// Header 放在 #header wrapper 內，捲動時會被捲離畫面，故此處以 top: 0 貼齊視窗頂端
+// 捲動貼頂（is-pinned 由 js/stepper.js 切換）時換上白底陰影並縮小圓圈、隱藏副標 ----
+.wizardStepperBar {
+    position: sticky;
+    top: 0;
+    z-index: 15;
+    padding: 8px 0;
+    border-bottom: 1px solid transparent;
+    background-color: transparent;
+    transition: padding $dur-pin $ease-brand, background-color $dur-pin $ease-brand, border-color $dur-pin $ease-brand, box-shadow $dur-pin $ease-brand;
+}
+
+.wizardStepperBar.is-pinned {
+    padding: 6px 0;
+    border-bottom-color: $border-100;
+    background-color: rgba(255, 255, 255, .92);
+    box-shadow: 0 8px 24px rgba(23, 63, 143, .08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.wizardStepperBar.is-pinned .stepperLg-item {
+    min-width: 84px;
+}
+
+.wizardStepperBar.is-pinned .stepperLg-circle {
+    width: 30px;
+    height: 30px;
+    font-size: .9375rem;
+}
+
+.wizardStepperBar.is-pinned .stepperLg-line {
+    margin-top: 22px;
+}
+
+.wizardStepperBar.is-pinned .stepperLg-sub {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+}
+
+// 複賽報名頁：步驟列稍微上移疊在橫幅背景上（PM 需求），下方 .wizardContentSection 白色卡片隨之一起上移；
+// 不影響 sticky 貼頂行為，僅改變捲動貼頂前的初始位置
+.wizardStepperBar--overlap {
+    margin-top: -65px;
+}
+
+// ---- 步驟面板 ----
+.wizardPanel[hidden] {
+    display: none;
+}
+
+// ---- 底部固定操作列：滿版視窗寬度，內容置中對齊內容寬度 ----
+.wizardActionBar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    border-top: 1px solid $border-100;
+    background: rgba(255, 255, 255, .92);
+    box-shadow: 0 -6px 24px rgba(23, 63, 143, .10);
+    backdrop-filter: blur(12px);
+}
+
+.wizardActionBar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+}
+
+// 左側狀態文字（儲存狀態／最終步驟提醒）
+.wizardActionBar-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $text-200;
+    font-size: 1rem;
+}
+
+.wizardActionBar-status i {
+    color: $success-100;
+}
+
+.wizardActionBar-reminder {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: $text-200;
+}
+
+.wizardActionBar-reminderTitle {
+    margin: 0;
+    color: $primary-100;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.wizardActionBar-reminderLink {
+    margin-left: 4px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $warning-100;
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+        color: $danger-100;
+    }
+}
+
+.wizardActionBar-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+// 「下一步」停用原因說明：不可只靠 tooltip，需常駐顯示在按鈕旁
+.wizardActionBar-nextHint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: $warning-100;
+    font-size: 1rem;
+}
+
+// ---- 為固定底部操作列預留空間，避免內容被遮住 ----
+.wizardContentSection {
+    padding-top: 24px;
+    padding-bottom: 140px;
+}
+
+// 底部操作列存在時，置頂按鈕上移避免被遮住
+body.hasWizardActionBar .scroll-top-btn {
+    bottom: 110px;
+}
+
+@media (max-width: $breakpoint-single) {
+    .wizardPageHeader h1 {
+        font-size: 1.5rem;
+    }
+
+    .wizardActionBar-inner {
+        justify-content: center;
+    }
+
+    .wizardActionBar-buttons {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .wizardActionBar-buttons .btnRounded {
+        flex: 1 1 auto;
+        min-width: 130px;
+    }
+
+    body.hasWizardActionBar .scroll-top-btn {
+        bottom: 170px;
+    }
+
+    // 手機版橫幅較矮，縮小步驟列重疊量避免遮住橫幅標題
+    .wizardStepperBar--overlap {
+        margin-top: -40px;
+    }
+}

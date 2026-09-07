@@ -1,0 +1,56 @@
+// ============================================================
+// 不報名切結書流程（applyConfirm.html #declineBlock）：
+// 下載／上傳兩步驟以編號圓點＋淡底卡片區隔，維持全站簡約風格
+// ============================================================
+
+.declineStep {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+    padding: 0 20px;
+    border: 1px solid $border-100;
+    border-radius: 12px;
+    background-color: $bg-100;
+}
+
+.declineStep-item {
+    display: flex;
+    gap: 16px;
+    padding: 20px 0;
+}
+
+.declineStep-item + .declineStep-item {
+    border-top: 1px solid $border-100;
+}
+
+.declineStep-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background-color: $primary-100;
+    color: $white;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.declineStep-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.declineStep-title {
+    margin: 0 0 10px;
+    color: $primary-100;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+@media (max-width: $breakpoint-single) {
+    .declineStep {
+        padding: 0 16px;
+    }
+}

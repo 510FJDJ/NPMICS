@@ -1,0 +1,115 @@
+// ============================================================
+// 按鈕（design.md §3）：外型命名＋色彩修飾子，不綁功能
+// 基底 .btnRounded（圓角 8、高 48）；focus 樣式由 _base.scss 統一
+// ============================================================
+
+.btnRounded {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 8px 24px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: .04em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color $dur-ui $ease-brand, color $dur-ui $ease-brand, border-color $dur-ui $ease-brand;
+
+    // Primary：靛藍底白字
+    &.btn-indigo {
+        background-color: $primary-100;
+        color: $white;
+
+        &:hover {
+            background-color: $primary-200;
+            color: $white;
+        }
+    }
+
+    // Secondary：白底靛藍字與框
+    &.btn-outline {
+        background-color: $white;
+        border-color: $primary-100;
+        color: $primary-100;
+
+        &:hover {
+            background-color: $primary-10;
+        }
+    }
+
+    // Ghost：白底細灰框（上一步、關閉等次要動作）
+    &.btn-ghost {
+        background-color: $white;
+        border-color: $border-100;
+        color: $text-100;
+
+        &:hover {
+            border-color: $primary-100;
+            color: $primary-100;
+        }
+    }
+
+    // Outline Danger：紅框白底（刪除等破壞性操作）
+    &.btn-outlineDanger {
+        background-color: $white;
+        border-color: $danger-100;
+        color: $danger-100;
+
+        &:hover {
+            background-color: $danger-100;
+            color: $white;
+        }
+    }
+
+    // 尺寸修飾子（表格內、header 用；仍滿足 44px 觸控目標）
+    &.btn-compact {
+        min-height: 44px;
+        padding: 6px 16px;
+    }
+
+    // Disabled：一律 aria-disabled（不可用原生 disabled），原因用 aria-describedby 指向說明文字
+    &[aria-disabled="true"] {
+        background-color: $bg-100;
+        border-color: $border-100;
+        color: $gray-100;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    // 尾端箭頭圖示：hover 時往右位移
+    i.bi-arrow-right {
+        transition: transform $dur-ui $ease-brand;
+    }
+
+    &:hover i.bi-arrow-right {
+        transform: translateX(4px);
+    }
+}
+
+// Text 按鈕：靛藍字，hover 加底線
+.btnText {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 44px;
+    padding: 4px 8px;
+    border: 0;
+    background: none;
+    color: $primary-100;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &.btnText-danger {
+        color: $danger-100;
+    }
+}

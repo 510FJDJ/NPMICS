@@ -1,0 +1,145 @@
+// ============================================================
+// 報名精靈頁大型步驟指示器（design.md §3）：
+// 數字圓圈＋分隔線＋標題＋狀態副標
+// 狀態色：未開始灰／填寫中靛藍／尚未填寫・尚未上傳橘／已完成綠勾
+// ============================================================
+
+.stepperLg {
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding-top: 10px;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stepperLg-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    min-width: 110px;
+    padding: 0 4px;
+    border: none;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+    text-align: center;
+    transition: width $dur-pin $ease-brand;
+}
+
+.stepperLg-item:focus-visible {
+    border-radius: 8px;
+}
+
+.stepperLg-circle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+    border: 1px solid $gray-100;
+    border-radius: 999px;
+    background-color: $white;
+    color: $gray-100;
+    font-size: 1.125rem;
+    font-weight: 500;
+    transition: width $dur-pin $ease-brand, height $dur-pin $ease-brand, font-size $dur-pin $ease-brand;
+}
+
+.stepperLg-check {
+    display: none;
+}
+
+.stepperLg-label {
+    color: $text-200;
+    font-size: 1rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.stepperLg-sub {
+    overflow: hidden;
+    color: $gray-100;
+    font-size: .9375rem;
+    font-weight: 400;
+    opacity: 1;
+    transition: max-height $dur-pin $ease-brand, margin-top $dur-pin $ease-brand, opacity $dur-pin $ease-brand;
+}
+
+// ---- 進行中（填寫中）----
+.stepperLg-item.is-active .stepperLg-circle {
+    border-color: $primary-100;
+    background-color: $primary-100;
+    color: $white;
+    box-shadow: 0 0 0 4px rgba(23, 63, 143, .16);
+}
+
+.stepperLg-item.is-active .stepperLg-label {
+    color: $primary-100;
+    font-weight: 500;
+}
+
+.stepperLg-item.is-active .stepperLg-sub {
+    color: $primary-100;
+    font-weight: 500;
+}
+
+// ---- 已離開但尚未完成（尚未填寫／尚未上傳）：橘色提醒 ----
+.stepperLg-item.is-pending .stepperLg-circle {
+    border-color: $warning-100;
+    color: $warning-100;
+}
+
+.stepperLg-item.is-pending .stepperLg-sub {
+    color: $warning-100;
+    font-weight: 500;
+}
+
+// ---- 已完成：綠底綠勾 ----
+.stepperLg-item.is-done .stepperLg-circle {
+    border-color: transparent;
+    background-color: $success-100;
+    color: $white;
+}
+
+.stepperLg-item.is-done .stepperLg-num {
+    display: none;
+}
+
+.stepperLg-item.is-done .stepperLg-check {
+    display: inline-flex;
+    color: $white;
+}
+
+.stepperLg-item.is-done .stepperLg-label {
+    color: $success-100;
+    font-weight: 500;
+}
+
+.stepperLg-item.is-done .stepperLg-sub {
+    color: $success-100;
+}
+
+// ---- 分隔線 ----
+.stepperLg-line {
+    flex: 1 1 auto;
+    height: 3px;
+    margin-top: 28px;
+    min-width: 24px;
+    background-color: $border-100;
+    transition: background-color $dur-ui $ease-brand, margin-top $dur-ui $ease-brand;
+}
+
+.stepperLg-line.is-done {
+    background-color: $success-100;
+}
+
+@media (max-width: $breakpoint-single) {
+    .stepperLg {
+        max-width: 100%;
+    }
+}

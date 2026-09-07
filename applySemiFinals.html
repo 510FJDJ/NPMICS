@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <script>
+        // 無障礙：清掉網址列殘留的錨點 hash，避免重新整理時瀏覽器原生錨點跳轉
+        if (window.location.hash) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo/edu_logo.png" type="image/png">
+    <title>填寫複賽報名 | 115學年度新北區數理暨資訊學科能力競賽複賽報名系統</title>
+    <meta name="description" content="115學年度新北區數理暨資訊學科能力競賽複賽報名：依步驟填寫學校承辦人與領隊資料、參賽科別與學生資料，下載報名表並上傳簽核後報名表完成報名。">
+
+    <link rel="stylesheet" href="css/all.css">
+</head>
+<body class="hasWizardActionBar">
+    <!-- 無障礙：跳過導覽列，進入主要內容區 -->
+    <a href="#goCenter" class="sr-only focusable" accesskey="C" title="跳過導覽列，進入主要內容區">主要內容區</a>
+    <!-- 無障礙：跳至上方導覽列（僅供 Alt+U 快速鍵定位）-->
+    <a href="#headerNav" class="sr-only focusable" accesskey="U" title="跳至上方導覽列" tabindex="-1">上方導覽列</a>
+
+    <div id="header" data-layout="layout/header_School.html"></div>
+
+    <main id="goCenter" tabindex="-1">
+        <!-- 內頁橫幅：平面幾何科學風插畫背景（裝飾性，CSS background） -->
+        <div class="pageBanner wizardPageHeader pageBanner--overlapSm">
+            <h1>複賽報名</h1>
+        </div>
+
+        <!-- 步驟列：sticky 固定位置（PM 需求），1、2、4 步驟依填寫情況顯示完成狀態；--overlap 疊上橫幅背景增加層次感 -->
+        <div class="wizardStepperBar wizardStepperBar--overlap" id="wizardStepperBar">
+            <div class="container">
+                <nav class="stepperLg" id="wizardStepper" aria-label="報名進度">
+                    <button type="button" class="stepperLg-item is-active" data-step-key="school" aria-current="step">
+                        <span class="stepperLg-circle">
+                            <span class="stepperLg-num">1</span>
+                            <i class="bi bi-check-lg stepperLg-check" aria-hidden="true"></i>
+                        </span>
+                        <span class="stepperLg-label">學校、承辦人、領隊資料</span>
+                        <span class="stepperLg-sub">填寫中</span>
+                    </button>
+                    <div class="stepperLg-line" aria-hidden="true"></div>
+
+                    <button type="button" class="stepperLg-item" data-step-key="students">
+                        <span class="stepperLg-circle">
+                            <span class="stepperLg-num">2</span>
+                            <i class="bi bi-check-lg stepperLg-check" aria-hidden="true"></i>
+                        </span>
+                        <span class="stepperLg-label">參賽科別與學生資料</span>
+                        <span class="stepperLg-sub">未開始</span>
+                    </button>
+                    <div class="stepperLg-line" aria-hidden="true"></div>
+
+                    <button type="button" class="stepperLg-item" data-step-key="download">
+                        <span class="stepperLg-circle">
+                            <span class="stepperLg-num">3</span>
+                            <i class="bi bi-check-lg stepperLg-check" aria-hidden="true"></i>
+                        </span>
+                        <span class="stepperLg-label">下載報名表</span>
+                        <span class="stepperLg-sub">未開始</span>
+                    </button>
+                    <div class="stepperLg-line" aria-hidden="true"></div>
+
+                    <button type="button" class="stepperLg-item" data-step-key="upload">
+                        <span class="stepperLg-circle">
+                            <span class="stepperLg-num">4</span>
+                            <i class="bi bi-check-lg stepperLg-check" aria-hidden="true"></i>
+                        </span>
+                        <span class="stepperLg-label">上傳簽核後報名表</span>
+                        <span class="stepperLg-sub">尚未上傳</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- ===== 表單內容區 ===== -->
+        <section class="wizardContentSection">
+            <div class="container">
+                <div class="row justify-content-center">
+                <div class="col-lg-10">
+                <form id="semiFinalsForm" novalidate>
+
+                    <!-- 步驟一：學校、承辦人、領隊資料 -->
+                    <section class="wizardPanel" data-step-panel="school">
+                        <h2 class="visually-hidden">步驟一：學校、承辦人、領隊資料</h2>
+
+                        <div class="formSection">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">學校基本資料</h3>
+                                </div>
+                            </div>
+
+                            <p class="formSection-hint">
+                                <i class="bi bi-info-circle" aria-hidden="true"></i>
+                                學校名稱、學校總班級數、普通科班級數由系統統一匯入帶入，學校不須填寫
+                            </p>
+
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="formField">
+                                        <label class="formField-label" for="schoolName">學校名稱（獎狀上的學校全銜）
+                                            <span class="requiredPill">必填</span>
+                                        </label>
+                                        <!-- 後端：系統匯入帶入，唯讀 -->
+                                        <input class="inputText" type="text" id="schoolName" name="schoolName" value="基隆市立中山高級中學" readonly required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="formField">
+                                        <label class="formField-label" for="schoolClassTotal">學校 總 班級數
+                                            <span class="requiredPill">必填</span>
+                                        </label>
+                                        <!-- 後端：系統匯入帶入，唯讀 -->
+                                        <input class="inputText" type="text" id="schoolClassTotal" name="schoolClassTotal" value="45" readonly required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="formField">
+                                        <label class="formField-label" for="schoolStudentTotal">學校 總 學生數
+                                            <span class="requiredPill">必填</span>
+                                        </label>
+                                        <input class="inputText" type="number" id="schoolStudentTotal" name="schoolStudentTotal" min="1" placeholder="請輸入學校總學生數" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="formField">
+                                        <label class="formField-label" for="schoolClassRegular">學校 普通科 班級數
+                                            <span class="requiredPill">必填</span>
+                                        </label>
+                                        <!-- 後端：系統匯入帶入，唯讀 -->
+                                        <input class="inputText" type="text" id="schoolClassRegular" name="schoolClassRegular" value="40" readonly required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="formField">
+                                        <label class="formField-label" for="schoolGifted">貴校是否獲核定數理資優班
+                                            <span class="requiredPill">必填</span>
+                                        </label>
+                                        <select class="selectField" id="schoolGifted" name="schoolGifted" required>
+                                            <option value="" selected disabled>請選擇</option>
+                                            <option value="no">否</option>
+                                            <option value="yes">是</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="formField">
+                                        <span class="formField-label sr-only">名額備註</span>
+                                        <p class="formField-help mb-0" role="note">
+                                            ・51 班以上學校，每科選派至多 4 人參加<br>
+                                            ・50 班以下學校，每科選派至多 2 人參加
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formSection">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">學校承辦人</h3>
+                                </div>
+                            </div>
+
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="formField">
+                                        <label class="formField-label" for="contactName">姓名
+                                            <span class="requiredPill">必填</span>
+                                        </label>
+                                        <input class="inputText" type="text" id="contactName" name="contactName" placeholder="請輸入學校承辦人姓名" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="formField">
+                                        <label class="formField-label" for="contactPhone">電話
+                                            <span class="requiredPill">必填</span>
+                                        </label>
+                                        <input class="inputText" type="tel" id="contactPhone" name="contactPhone" placeholder="請輸入學校承辦人電話" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="formField">
+                                        <label class="formField-label" for="contactEmail">Email
+                                            <span class="requiredPill">必填</span>
+                                        </label>
+                                        <input class="inputText" type="email" id="contactEmail" name="contactEmail" placeholder="請輸入學校承辦人Email" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formSection">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">領隊（帶隊老師）資料</h3>
+                                </div>
+                            </div>
+
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <h4 class="formSection-subheading mt-0 pt-0 border-0">第一天 <span class="formField-help">（生物科、物理科 帶隊老師）</span></h4>
+                                    <div class="row g-4">
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderBioPhyName">姓名 <span class="requiredPill">必填</span></label>
+                                                <input class="inputText" type="text" id="leaderBioPhyName" name="leaderBioPhyName" placeholder="請輸入帶隊老師姓名" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderBioPhyPhone">手機號碼 <span class="requiredPill">必填</span></label>
+                                                <input class="inputText" type="tel" id="leaderBioPhyPhone" name="leaderBioPhyPhone" placeholder="請輸入帶隊老師手機號碼" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderBioPhyMeal">餐食選項 <span class="requiredPill">必填</span></label>
+                                                <select class="selectField" id="leaderBioPhyMeal" name="leaderBioPhyMeal" required>
+                                                    <option value="" selected disabled>請選擇</option>
+                                                    <option value="meat">葷食</option>
+                                                    <option value="veg">素食</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h4 class="formSection-subheading mt-0 pt-0 border-0">第二天 <span class="formField-help">（數學科 帶隊老師）</span></h4>
+                                    <div class="row g-4">
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderMathName">姓名 <span class="requiredPill">必填</span></label>
+                                                <input class="inputText" type="text" id="leaderMathName" name="leaderMathName" placeholder="請輸入帶隊老師姓名" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderMathPhone">手機號碼 <span class="requiredPill">必填</span></label>
+                                                <input class="inputText" type="tel" id="leaderMathPhone" name="leaderMathPhone" placeholder="請輸入帶隊老師手機號碼" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderMathMeal">餐食選項 <span class="requiredPill">必填</span></label>
+                                                <select class="selectField" id="leaderMathMeal" name="leaderMathMeal" required>
+                                                    <option value="" selected disabled>請選擇</option>
+                                                    <option value="meat">葷食</option>
+                                                    <option value="veg">素食</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h4 class="formSection-subheading mt-0 border-0">第一天 <span class="formField-help">（化學科、資訊科 帶隊老師）</span></h4>
+                                    <div class="row g-4">
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderCheInfoName">姓名 <span class="requiredPill">必填</span></label>
+                                                <input class="inputText" type="text" id="leaderCheInfoName" name="leaderCheInfoName" placeholder="請輸入帶隊老師姓名" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderCheInfoPhone">手機號碼 <span class="requiredPill">必填</span></label>
+                                                <input class="inputText" type="tel" id="leaderCheInfoPhone" name="leaderCheInfoPhone" placeholder="請輸入帶隊老師手機號碼" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderCheInfoMeal">餐食選項 <span class="requiredPill">必填</span></label>
+                                                <select class="selectField" id="leaderCheInfoMeal" name="leaderCheInfoMeal" required>
+                                                    <option value="" selected disabled>請選擇</option>
+                                                    <option value="meat">葷食</option>
+                                                    <option value="veg">素食</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h4 class="formSection-subheading mt-0 border-0">第二天 <span class="formField-help">（地球科學科 帶隊老師）</span></h4>
+                                    <div class="row g-4">
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderEsName">姓名 <span class="requiredPill">必填</span></label>
+                                                <input class="inputText" type="text" id="leaderEsName" name="leaderEsName" placeholder="請輸入帶隊老師姓名" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderEsPhone">手機號碼 <span class="requiredPill">必填</span></label>
+                                                <input class="inputText" type="tel" id="leaderEsPhone" name="leaderEsPhone" placeholder="請輸入帶隊老師手機號碼" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="formField">
+                                                <label class="formField-label" for="leaderEsMeal">餐食選項 <span class="requiredPill">必填</span></label>
+                                                <select class="selectField" id="leaderEsMeal" name="leaderEsMeal" required>
+                                                    <option value="" selected disabled>請選擇</option>
+                                                    <option value="meat">葷食</option>
+                                                    <option value="veg">素食</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 步驟二：參賽科別與學生資料（表格式整列新增，操作欄固定最右） -->
+                    <section class="wizardPanel" data-step-panel="students" hidden>
+                        <h2 class="visually-hidden">步驟二：參賽科別與學生資料</h2>
+
+                        <!-- 未完成前一步驟時的鎖定提示（由 js/applySemiFinals.js 切換） -->
+                        <p class="formSection-hint formSection-hint--warn" data-step-lock-notice hidden>
+                            <i class="bi bi-lock-fill" aria-hidden="true"></i>
+                            請先完成「學校、承辦人、領隊資料」步驟，才能開始填寫本步驟（可先瀏覽內容）
+                        </p>
+
+                        <div class="formSection">
+                            <div class="formSection-hint--warn formSection-hint" role="note">
+                                <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                                <div>
+                                    <p class="quotaList-lead">複賽名額：每人以報名及參加 1 科為限。</p>
+                                    <ul class="quotaList">
+                                        <li>1. 115學年度核定有數理資優班之學校，每科選派<strong>至多 6 人</strong>參加。</li>
+                                        <li>2. 普通科 51 班以上學校，每校每科選派<strong>至多 4 人</strong>參加。</li>
+                                        <li>3. 普通科 50 班以下學校，每科選派<strong>至多 2 人</strong>參加。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="formField-note mb-0">各科選擇「是」後即可以整列方式新增參賽學生；本步驟全數填寫完成後，請按下方「送出並產生報名表」。</p>
+                        </div>
+
+                        <!-- 六科科別區塊：表格 thead 與空 tbody 由 js/applySemiFinals.js 依樣板產生列 -->
+                        <div class="formSection" data-subject="bio" data-subject-name="生物科">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">生物科</h3>
+                                </div>
+                            </div>
+                            <div class="formField col-lg-4">
+                                <label class="formField-label" for="bioApply">生物科 是否報名 <span class="requiredPill">必填</span></label>
+                                <select class="selectField js-subjectApply" id="bioApply" name="bioApply" required>
+                                    <option value="no" selected>否</option>
+                                    <option value="yes">是</option>
+                                </select>
+                            </div>
+                            <div class="js-subjectStudents mt-5" hidden>
+                                <div class="data-tableToolbar">
+                                    <span class="data-tableToolbar-count js-studentCount">已填寫 1 位學生</span>
+                                    <button type="button" class="btnRounded btn-indigo btn-compact js-addStudent">
+                                        <i class="bi bi-plus-lg" aria-hidden="true"></i>新增學生
+                                    </button>
+                                </div>
+                                <div class="data-table-wrap">
+                                    <table class="table data-table data-table--wide">
+                                        <caption class="sr-only">生物科參賽學生資料表</caption>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">姓名</th>
+                                                <th scope="col">性別</th>
+                                                <th scope="col">出生年月日</th>
+                                                <th scope="col">身分證字號</th>
+                                                <th scope="col">餐食調查</th>
+                                                <th scope="col">年級別</th>
+                                                <th scope="col">連絡電話</th>
+                                                <th scope="col">學生 Email</th>
+                                                <th scope="col">指導老師姓名</th>
+                                                <th scope="col">指導老師電話</th>
+                                                <th scope="col">指導老師 Email</th>
+                                                <th scope="col" class="cell-sticky">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="js-studentRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formSection" data-subject="phy" data-subject-name="物理科">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">物理科</h3>
+                                </div>
+                            </div>
+                            <div class="formField col-lg-4">
+                                <label class="formField-label" for="phyApply">物理科 是否報名 <span class="requiredPill">必填</span></label>
+                                <select class="selectField js-subjectApply" id="phyApply" name="phyApply" required>
+                                    <option value="no" selected>否</option>
+                                    <option value="yes">是</option>
+                                </select>
+                            </div>
+                            <div class="js-subjectStudents mt-5" hidden>
+                                <div class="data-tableToolbar">
+                                    <span class="data-tableToolbar-count js-studentCount">已填寫 1 位學生</span>
+                                    <button type="button" class="btnRounded btn-indigo btn-compact js-addStudent">
+                                        <i class="bi bi-plus-lg" aria-hidden="true"></i>新增學生
+                                    </button>
+                                </div>
+                                <div class="data-table-wrap">
+                                    <table class="table data-table data-table--wide">
+                                        <caption class="sr-only">物理科參賽學生資料表</caption>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">姓名</th>
+                                                <th scope="col">性別</th>
+                                                <th scope="col">出生年月日</th>
+                                                <th scope="col">身分證字號</th>
+                                                <th scope="col">餐食調查</th>
+                                                <th scope="col">年級別</th>
+                                                <th scope="col">連絡電話</th>
+                                                <th scope="col">學生 Email</th>
+                                                <th scope="col">指導老師姓名</th>
+                                                <th scope="col">指導老師電話</th>
+                                                <th scope="col">指導老師 Email</th>
+                                                <th scope="col" class="cell-sticky">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="js-studentRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formSection" data-subject="math" data-subject-name="數學科">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">數學科</h3>
+                                </div>
+                            </div>
+                            <div class="formField col-lg-4">
+                                <label class="formField-label" for="mathApply">數學科 是否報名 <span class="requiredPill">必填</span></label>
+                                <select class="selectField js-subjectApply" id="mathApply" name="mathApply" required>
+                                    <option value="no" selected>否</option>
+                                    <option value="yes">是</option>
+                                </select>
+                            </div>
+                            <div class="js-subjectStudents mt-5" hidden>
+                                <div class="data-tableToolbar">
+                                    <span class="data-tableToolbar-count js-studentCount">已填寫 1 位學生</span>
+                                    <button type="button" class="btnRounded btn-indigo btn-compact js-addStudent">
+                                        <i class="bi bi-plus-lg" aria-hidden="true"></i>新增學生
+                                    </button>
+                                </div>
+                                <div class="data-table-wrap">
+                                    <table class="table data-table data-table--wide">
+                                        <caption class="sr-only">數學科參賽學生資料表</caption>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">姓名</th>
+                                                <th scope="col">性別</th>
+                                                <th scope="col">出生年月日</th>
+                                                <th scope="col">身分證字號</th>
+                                                <th scope="col">餐食調查</th>
+                                                <th scope="col">年級別</th>
+                                                <th scope="col">連絡電話</th>
+                                                <th scope="col">學生 Email</th>
+                                                <th scope="col">指導老師姓名</th>
+                                                <th scope="col">指導老師電話</th>
+                                                <th scope="col">指導老師 Email</th>
+                                                <th scope="col" class="cell-sticky">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="js-studentRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formSection" data-subject="che" data-subject-name="化學科">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">化學科</h3>
+                                </div>
+                            </div>
+                            <div class="formField col-lg-4">
+                                <label class="formField-label" for="cheApply">化學科 是否報名 <span class="requiredPill">必填</span></label>
+                                <select class="selectField js-subjectApply" id="cheApply" name="cheApply" required>
+                                    <option value="no" selected>否</option>
+                                    <option value="yes">是</option>
+                                </select>
+                            </div>
+                            <div class="js-subjectStudents mt-5" hidden>
+                                <div class="data-tableToolbar">
+                                    <span class="data-tableToolbar-count js-studentCount">已填寫 1 位學生</span>
+                                    <button type="button" class="btnRounded btn-indigo btn-compact js-addStudent">
+                                        <i class="bi bi-plus-lg" aria-hidden="true"></i>新增學生
+                                    </button>
+                                </div>
+                                <div class="data-table-wrap">
+                                    <table class="table data-table data-table--wide">
+                                        <caption class="sr-only">化學科參賽學生資料表</caption>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">姓名</th>
+                                                <th scope="col">性別</th>
+                                                <th scope="col">出生年月日</th>
+                                                <th scope="col">身分證字號</th>
+                                                <th scope="col">餐食調查</th>
+                                                <th scope="col">年級別</th>
+                                                <th scope="col">連絡電話</th>
+                                                <th scope="col">學生 Email</th>
+                                                <th scope="col">指導老師姓名</th>
+                                                <th scope="col">指導老師電話</th>
+                                                <th scope="col">指導老師 Email</th>
+                                                <th scope="col" class="cell-sticky">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="js-studentRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formSection" data-subject="info" data-subject-name="資訊科">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">資訊科</h3>
+                                </div>
+                            </div>
+                            <div class="formField col-lg-4">
+                                <label class="formField-label" for="infoApply">資訊科 是否報名 <span class="requiredPill">必填</span></label>
+                                <select class="selectField js-subjectApply" id="infoApply" name="infoApply" required>
+                                    <option value="no" selected>否</option>
+                                    <option value="yes">是</option>
+                                </select>
+                            </div>
+                            <div class="js-subjectStudents mt-5" hidden>
+                                <div class="data-tableToolbar">
+                                    <span class="data-tableToolbar-count js-studentCount">已填寫 1 位學生</span>
+                                    <button type="button" class="btnRounded btn-indigo btn-compact js-addStudent">
+                                        <i class="bi bi-plus-lg" aria-hidden="true"></i>新增學生
+                                    </button>
+                                </div>
+                                <div class="data-table-wrap">
+                                    <table class="table data-table data-table--wide">
+                                        <caption class="sr-only">資訊科參賽學生資料表</caption>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">姓名</th>
+                                                <th scope="col">性別</th>
+                                                <th scope="col">出生年月日</th>
+                                                <th scope="col">身分證字號</th>
+                                                <th scope="col">餐食調查</th>
+                                                <th scope="col">年級別</th>
+                                                <th scope="col">連絡電話</th>
+                                                <th scope="col">學生 Email</th>
+                                                <th scope="col">指導老師姓名</th>
+                                                <th scope="col">指導老師電話</th>
+                                                <th scope="col">指導老師 Email</th>
+                                                <th scope="col" class="cell-sticky">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="js-studentRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formSection" data-subject="es" data-subject-name="地球科學科">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">地球科學科</h3>
+                                </div>
+                            </div>
+                            <div class="formField col-lg-4">
+                                <label class="formField-label" for="esApply">地球科學科 是否報名 <span class="requiredPill">必填</span></label>
+                                <select class="selectField js-subjectApply" id="esApply" name="esApply" required>
+                                    <option value="no" selected>否</option>
+                                    <option value="yes">是</option>
+                                </select>
+                            </div>
+                            <div class="js-subjectStudents mt-5" hidden>
+                                <div class="data-tableToolbar">
+                                    <span class="data-tableToolbar-count js-studentCount">已填寫 1 位學生</span>
+                                    <button type="button" class="btnRounded btn-indigo btn-compact js-addStudent">
+                                        <i class="bi bi-plus-lg" aria-hidden="true"></i>新增學生
+                                    </button>
+                                </div>
+                                <div class="data-table-wrap">
+                                    <table class="table data-table data-table--wide">
+                                        <caption class="sr-only">地球科學科參賽學生資料表</caption>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">姓名</th>
+                                                <th scope="col">性別</th>
+                                                <th scope="col">出生年月日</th>
+                                                <th scope="col">身分證字號</th>
+                                                <th scope="col">餐食調查</th>
+                                                <th scope="col">年級別</th>
+                                                <th scope="col">連絡電話</th>
+                                                <th scope="col">學生 Email</th>
+                                                <th scope="col">指導老師姓名</th>
+                                                <th scope="col">指導老師電話</th>
+                                                <th scope="col">指導老師 Email</th>
+                                                <th scope="col" class="cell-sticky">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="js-studentRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 步驟三：下載報名表 -->
+                    <section class="wizardPanel" data-step-panel="download" hidden>
+                        <h2 class="visually-hidden">步驟三：下載報名表</h2>
+
+                        <p class="formSection-hint formSection-hint--warn" data-step-lock-notice hidden>
+                            <i class="bi bi-lock-fill" aria-hidden="true"></i>
+                            請先完成前面步驟並按「送出並產生報名表」，才能下載報名表（可先瀏覽內容）
+                        </p>
+
+                        <div class="formSection">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">下載報名表</h3>
+                                </div>
+                            </div>
+
+                            <p class="formSection-hint">
+                                <i class="bi bi-info-circle" aria-hidden="true"></i>
+                                報名表內容為步驟一、二填寫的資料；下載後請完成校內簽核（承辦人、教務主任、校長）並掃描成 pdf 檔，於下一步驟上傳
+                            </p>
+
+                            <div class="flex-row-center flex-wrap gap-4">
+                                <!-- 後端：報名表檔案由後端產生 -->
+                                <a class="btnRounded btn-outline js-downloadForm" href="#" download>
+                                    <i class="bi bi-download" aria-hidden="true"></i>下載生物科、物理科、數學科報名表
+                                </a>
+                                <a class="btnRounded btn-outline js-downloadForm" href="#" download>
+                                    <i class="bi bi-download" aria-hidden="true"></i>下載化學科、資訊科、地球科學科報名表
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 步驟四：上傳簽核後報名表 -->
+                    <section class="wizardPanel" data-step-panel="upload" hidden>
+                        <h2 class="visually-hidden">步驟四：上傳簽核後報名表</h2>
+
+                        <p class="formSection-hint formSection-hint--warn" data-step-lock-notice hidden>
+                            <i class="bi bi-lock-fill" aria-hidden="true"></i>
+                            請先完成前面步驟並下載報名表，才能上傳簽核後報名表（可先瀏覽內容）
+                        </p>
+
+                        <div class="formSection">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">上傳簽核後報名表</h3>
+                                </div>
+                            </div>
+
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="formField">
+                                        <label class="formField-label" for="signedFormGroupA">上傳簽核後報名表（生物科、物理科、數學科）
+                                            <span class="requiredPill">必填</span>
+                                        </label>
+                                        <div class="uploadField">
+                                            <label class="btnRounded btn-outline btn-compact" for="signedFormGroupA">
+                                                <i class="bi bi-upload" aria-hidden="true"></i>選擇檔案
+                                            </label>
+                                            <span class="uploadBtn-help" id="signedFormGroupAHelp">尚未選擇檔案，格式限 pdf，單檔上限 10MB</span>
+                                            <input type="file" id="signedFormGroupA" name="signedFormGroupA" class="sr-only js-fileInput" accept=".pdf" data-help="signedFormGroupAHelp" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="formField">
+                                        <label class="formField-label" for="signedFormGroupB">上傳簽核後報名表（化學科、資訊科、地球科學科）
+                                            <span class="requiredPill">必填</span>
+                                        </label>
+                                        <div class="uploadField">
+                                            <label class="btnRounded btn-outline btn-compact" for="signedFormGroupB">
+                                                <i class="bi bi-upload" aria-hidden="true"></i>選擇檔案
+                                            </label>
+                                            <span class="uploadBtn-help" id="signedFormGroupBHelp">尚未選擇檔案，格式限 pdf，單檔上限 10MB</span>
+                                            <input type="file" id="signedFormGroupB" name="signedFormGroupB" class="sr-only js-fileInput" accept=".pdf" data-help="signedFormGroupBHelp" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formSection">
+                            <div class="formSection-header">
+                                <div class="formSection-title">
+                                    <h3 class="formSection-titleText">最後確認</h3>
+                                </div>
+                            </div>
+
+                            <ul class="submitModal-noticeList mb-4" role="note">
+                                <li>1. 資料送出後就不可以再修改。</li>
+                                <li>2. 報名表下載後，務必將簽核後報名表掃描上傳才算完成報名，並了解送出後除特殊情形外不得自行修改。</li>
+                            </ul>
+
+                            <!-- 整張卡片（含文字）皆可點選勾選，外框線與底色隨勾選狀態變化 -->
+                            <label class="checkCard" for="finalConfirm">
+                                <input type="checkbox" id="finalConfirm" name="finalConfirm" required>
+                                <span class="checkCard-text">我已詳閱並同意上述事項，確認上傳之簽核後報名表<strong>正確無誤</strong>。</span>
+                            </label>
+                        </div>
+                    </section>
+                </form>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 底部固定操作列：滿版視窗寬度，內容置中 -->
+        <div class="wizardActionBar" id="wizardActionBar">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="wizardActionBar-inner">
+                            <span class="wizardActionBar-status" id="saveStatus">
+                                <i class="bi bi-info-circle-fill" aria-hidden="true"></i><span id="saveStatusText">填寫過程可隨時按「儲存」保留進度</span>
+                            </span>
+
+                            <div class="wizardActionBar-buttons">
+                                <button type="button" class="btnRounded btn-ghost" id="btnPrev" aria-disabled="true">上一步</button>
+                                <button type="button" class="btnRounded btn-outline" id="btnSave">儲存</button>
+                                <span class="wizardActionBar-nextHint" id="nextStepHint" hidden>
+                                    <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span id="nextStepHintText">請先完成本頁必填欄位</span>
+                                </span>
+                                <button type="button" class="btnRounded btn-indigo" id="btnNext" aria-describedby="nextStepHint">下一步</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 學生資料列樣板：id／name／label 由 js/applySemiFinals.js 依科別與序號代入 -->
+    <template id="studentRowTemplate">
+        <tr>
+            <td data-label="姓名"><span class="cell-value">
+                <label class="sr-only" data-tpl="label" data-field-label="姓名"></label>
+                <input class="inputText" type="text" data-tpl="input" data-field="Name" placeholder="請輸入姓名" required>
+            </span></td>
+            <td data-label="性別"><span class="cell-value">
+                <label class="sr-only" data-tpl="label" data-field-label="性別"></label>
+                <select class="selectField" data-tpl="input" data-field="Gender" required>
+                    <option value="" selected disabled>請選擇</option>
+                    <option value="male">男</option>
+                    <option value="female">女</option>
+                </select>
+            </span></td>
+            <td data-label="出生年月日"><span class="cell-value">
+                <label class="sr-only" data-tpl="label" data-field-label="出生年月日"></label>
+                <input class="inputText" type="date" data-tpl="input" data-field="Birth" required>
+            </span></td>
+            <td data-label="身分證字號"><span class="cell-value">
+                <label class="sr-only" data-tpl="label" data-field-label="身分證字號"></label>
+                <input class="inputText" type="text" data-tpl="input" data-field="IdNo" placeholder="請輸入身分證字號" required>
+            </span></td>
+            <td data-label="餐食調查"><span class="cell-value">
+                <label class="sr-only" data-tpl="label" data-field-label="餐食調查"></label>
+                <select class="selectField" data-tpl="input" data-field="Meal" required>
+                    <option value="" selected disabled>請選擇</option>
+                    <option value="meat">葷</option>
+                    <option value="veg">素</option>
+                </select>
+            </span></td>
+            <td data-label="年級別"><span class="cell-value">
+                <label class="sr-only" data-tpl="label" data-field-label="年級別"></label>
+                <select class="selectField" data-tpl="input" data-field="Grade" required>
+                    <option value="" selected disabled>請選擇</option>
+                    <option value="1">一年級</option>
+                    <option value="2">二年級</option>
+                    <option value="3">三年級</option>
+                </select>
+            </span></td>
+            <td data-label="連絡電話"><span class="cell-value">
+                <label class="sr-only" data-tpl="label" data-field-label="連絡電話"></label>
+                <input class="inputText" type="tel" data-tpl="input" data-field="Phone" placeholder="請輸入電話" required>
+            </span></td>
+            <td data-label="學生 Email"><span class="cell-value">
+                <label class="sr-only" data-tpl="label" data-field-label="學生 Email"></label>
+                <input class="inputText" type="email" data-tpl="input" data-field="Email" placeholder="請輸入 Email" required>
+            </span></td>
+            <td data-label="指導老師姓名"><span class="cell-value">
+                <label class="sr-only" data-tpl="label" data-field-label="指導老師姓名"></label>
+                <input class="inputText" type="text" data-tpl="input" data-field="TeacherName" placeholder="請輸入姓名" required>
+            </span></td>
+            <td data-label="指導老師電話"><span class="cell-value">
+                <label class="sr-only" data-tpl="label" data-field-label="指導老師電話"></label>
+                <input class="inputText" type="tel" data-tpl="input" data-field="TeacherPhone" placeholder="請輸入電話" required>
+            </span></td>
+            <td data-label="指導老師 Email"><span class="cell-value">
+                <label class="sr-only" data-tpl="label" data-field-label="指導老師 Email"></label>
+                <input class="inputText" type="email" data-tpl="input" data-field="TeacherEmail" placeholder="請輸入 Email" required>
+            </span></td>
+            <td data-label="操作" class="cell-sticky"><span class="cell-value">
+                <button type="button" class="btnRounded btn-outlineDanger btn-compact js-removeStudent">
+                    刪除<i class="bi bi-trash3" aria-hidden="true"></i>
+                </button>
+            </span></td>
+        </tr>
+    </template>
+
+    <!-- 步驟二「送出並產生報名表」確認 Modal -->
+    <div class="modal fade submitModal" id="generateConfirmModal" tabindex="-1" aria-labelledby="generateConfirmTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="submitModal-title" id="generateConfirmTitle">送出並產生報名表</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="submitModal-desc">請確認以下事項後再送出：</p>
+                    <ul class="submitModal-noticeList" role="note">
+                        <li>1. 資料送出後<strong>就不可以再修改</strong>。</li>
+                        <li>2. 報名表下載後，務必將簽核後的報名表<strong>掃描上傳才算完成報名</strong>。</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnRounded btn-ghost" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btnRounded btn-indigo" id="btnGenerateConfirm">確認送出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 儲存成功 Modal -->
+    <div class="modal fade submitModal submitModal--center" id="saveSuccessModal" tabindex="-1" aria-labelledby="saveSuccessTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="關閉"></button>
+                </div>
+                <div class="modal-body">
+                    <span class="submitModal-successIcon" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+                    <h2 class="submitModal-title" id="saveSuccessTitle">儲存成功</h2>
+                    <p class="submitModal-desc">已保留目前填寫進度，可隨時回來繼續填寫。</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btnRounded btn-indigo" data-bs-dismiss="modal">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 完成報名成功 Modal -->
+    <div class="modal fade submitModal submitModal--center" id="submitSuccessModal" tabindex="-1" aria-labelledby="submitSuccessTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="關閉"></button>
+                </div>
+                <div class="modal-body">
+                    <span class="submitModal-successIcon" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+                    <h2 class="submitModal-title" id="submitSuccessTitle">已完成報名</h2>
+                    <p class="submitModal-desc">簽核後報名表已上傳，貴校已完成本次複賽報名。</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btnRounded btn-indigo" data-bs-dismiss="modal">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 回到頂部 -->
+    <button type="button" class="scroll-top-btn" aria-label="回到頁面頂端">
+        <i class="bi bi-arrow-up" aria-hidden="true"></i>
+        <span class="scroll-top-text">置頂</span>
+    </button>
+
+    <div id="footer" data-layout="layout/footer.html"></div>
+
+    <!-- 全站腳本（本地端，禁止 CDN）：順序不可調換 -->
+    <script src="js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/stepper.js"></script>
+    <script src="js/applySemiFinals.js"></script>
+</body>
+</html>

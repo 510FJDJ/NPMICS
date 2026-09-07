@@ -1,0 +1,109 @@
+// ============================================================
+// NPMICS 設計 Token（來源：design.md「學術靛藍」定案）
+// 此檔必須在 bootstrap/scss/variables 之前載入（!default 覆寫機制）
+// ============================================================
+
+// ---- 主色 primary/*（Indigo）----
+$primary-100: #173F8F; // 主色：主要按鈕、連結、選中頁籤、進行中步驟圓圈（白底對比約 9.79:1）
+$primary-200: #23489A; // 主色 hover / active（白底對比約 8.52:1）
+$primary-10:  #EEF2FF; // 主色淡底：選中列背景、資訊提示區塊底色
+
+// ---- 強調色 accent/*（僅限裝飾用途）----
+// 白底對比僅約 1.85:1，未達文字/UI 元件門檻，禁止用於文字、按鈕、需辨識的圖示；
+// 僅可用於標題底線等純裝飾線條（design.md §1.1）
+$accent-100: #F4B400;
+
+// ---- 中性色 text/* gray/* border/* bg/*（Slate）----
+$text-100:   #1F2937; // 主要內文、標題（CR ≥ 7:1）
+$text-200:   #475569; // 副標題、說明文字（CR ≥ 4.5:1）
+$gray-100:   #64748B; // 次要文字、未開始步驟（最低限度文字色，勿再淡）
+$border-100: #E2E8F0; // 卡片邊框、分隔線
+$bg-100:     #F8FAFC; // 全站頁面底色
+$white:      #FFFFFF;
+
+// ---- 功能色 semantic/*（一律顏色＋文字並用，不可只靠顏色）----
+$success-100: #15803D; // 成功、「已完成」、完成步驟綠勾
+$warning-100: #B45309; // 提醒、必填、「尚未填寫／尚未上傳」、名額備註重點
+$danger-100:  #B91C1C; // 錯誤、刪除、「未完成報名」
+$focus:       #635BFF; // 鍵盤焦點外框（ACCESSIBILITY.md §4.1）
+
+// ---- 動效 ----
+$dur-ui:  160ms;
+$dur-pin: 240ms; // 步驟列貼頂／取消貼頂轉場，比一般 UI 稍慢避免捲動跳動感
+$ease-brand: cubic-bezier(.65, 0, .35, 1);
+
+// ---- 版面 ----
+$content-max:       1240px;
+$breakpoint-single: 992px; // 以下轉單欄
+$header-height:     72px;
+
+// ---- 陰影（design.md §3）----
+$shadow-card:       0 1px 3px rgba(15, 23, 42, .08);
+$shadow-card-float: 0 12px 32px rgba(23, 63, 143, .10);
+
+// ============================================================
+// Bootstrap 5 變數覆寫
+// ============================================================
+$primary: $primary-100;
+$success: $success-100;
+$warning: $warning-100;
+$danger:  $danger-100;
+
+$min-contrast-ratio: 4.5; // WCAG 2.1 AA
+
+$body-bg:    $bg-100;
+$body-color: $text-100;
+
+$link-color:       $primary-100;
+$link-decoration:  underline;
+$link-hover-color: $primary-200;
+
+// 全站字族：本地自架 Noto Sans TC（design.md §2，嚴禁 CDN）
+$font-family-sans-serif: "Noto Sans TC", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+$font-size-base:   1rem; // 16px
+$line-height-base: 1.6;
+
+$headings-font-weight: 600; // 使用者回饋：全站粗體降階，避免視覺過重（design.md §2）
+
+// 間距階：4px 級距
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: 4px,
+  2: 8px,
+  3: 12px,
+  4: 16px,
+  5: 20px,
+  6: 24px,
+  7: 32px,
+  8: 40px,
+  9: 48px,
+  10: 64px,
+  11: 72px,
+  12: 88px,
+);
+
+// 圓角（design.md §3）：按鈕與輸入框 8px；卡片 16px 另由元件各自指定；pill 999px
+$border-radius:      8px;
+$border-radius-sm:   8px;
+$border-radius-lg:   16px;
+$border-radius-pill: 999px;
+
+$border-color: $border-100;
+
+$box-shadow: $shadow-card;
+
+// 表單：高 48、圓角 8、focus 靛藍框＋光暈
+$input-border-color:       $border-100;
+$input-border-radius:      8px;
+$input-focus-border-color: $primary-100;
+$input-focus-box-shadow:   0 0 0 3px rgba(23, 63, 143, .16);
+$input-placeholder-color:  $gray-100;
+
+// 網格
+$container-max-widths: (
+  xl: $content-max + 64px,
+);
+$container-padding-x: 64px; // bootstrap 會除以 2 → 左右各 32px
+$grid-gutter-width: 24px;

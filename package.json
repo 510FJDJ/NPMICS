@@ -1,0 +1,10 @@
+{
+  "name": "NPMICS",
+  "description": "115學年度新北區數理暨資訊學科能力競賽複賽報名系統（NPMICS）",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "jquery": "^3.7.1"
+  }
+}

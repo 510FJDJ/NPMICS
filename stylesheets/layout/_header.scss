@@ -1,0 +1,199 @@
+// ============================================================
+// 全站 Header：白底 sticky，Logo＋系統名｜主選單｜使用者資訊＋登出
+// 學校端與局端共用同一套樣式，僅選單項目數不同
+// ============================================================
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    min-height: $header-height;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $border-100;
+    background-color: $white;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.header-brand img {
+    width: 130px;
+    flex-shrink: 0;
+}
+
+.header-brand-divider {
+    width: 1px;
+    height: 36px;
+    background-color: $border-100;
+    flex-shrink: 0;
+}
+
+.header-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.35;
+    color: $primary-100;
+}
+
+.header-brand-year {
+    font-size: .875rem;
+    font-weight: 500;
+}
+
+.header-brand-name {
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@media (max-width: $breakpoint-single) {
+    .header-brand img {
+        width: 104px;
+    }
+
+    .header-brand-divider,
+    .header-brand-text {
+        display: none;
+    }
+}
+
+// ---- 主選單（桌機）----
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.header-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    color: $text-100;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color $dur-ui $ease-brand, color $dur-ui $ease-brand;
+
+    &:hover {
+        background-color: $primary-10;
+        color: $primary-100;
+    }
+
+    // 目前頁面：靛藍字＋淡底（由 js/main.js 依網址自動加上 aria-current="page"）
+    &[aria-current="page"] {
+        background-color: $primary-10;
+        color: $primary-100;
+        font-weight: 500;
+    }
+}
+
+@media (max-width: $breakpoint-single) {
+    .header-nav {
+        display: none; // 行動版收進 offcanvas
+    }
+}
+
+// ---- 右側：使用者資訊＋登出 ----
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-user {
+    color: $text-200;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.header-user strong {
+    color: $text-100;
+    font-weight: 500;
+}
+
+@media (max-width: $breakpoint-single) {
+    .header-user {
+        display: none; // 行動版移入 offcanvas
+    }
+}
+
+// ---- 行動版漢堡按鈕 ----
+.header-burger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid $border-100;
+    border-radius: 8px;
+    background-color: $white;
+    color: $primary-100;
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+@media (max-width: $breakpoint-single) {
+    .header-burger {
+        display: inline-flex;
+    }
+}
+
+// ---- 行動版 offcanvas 選單 ----
+.header-offcanvas {
+    background-color: $white;
+
+    .offcanvas-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1px solid $border-100;
+    }
+
+    .offcanvas-user {
+        color: $text-200;
+        font-size: 1rem;
+    }
+
+    .offcanvas-body {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding: 20px;
+    }
+}
+
+.offcanvas-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.offcanvas-nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: $text-100;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover,
+    &[aria-current="page"] {
+        background-color: $primary-10;
+        color: $primary-100;
+    }
+
+    &[aria-current="page"] {
+        font-weight: 500;
+    }
+}

@@ -1,0 +1,54 @@
+<header class="site-header" id="headerNav">
+    <div class="container flex-row-between">
+        <a class="header-brand" href="review.html">
+            <img src="img/logo/eduLogo.png" alt="新北市政府教育局">
+            <span class="header-brand-divider" aria-hidden="true"></span>
+            <span class="header-brand-text">
+                <span class="header-brand-year">115年新北區</span>
+                <span class="header-brand-name">數理暨資訊學科能力競賽 - 複賽報名系統</span>
+            </span>
+        </a>
+
+        <nav class="header-nav" aria-label="主選單">
+            <a href="schoolManage.html">學校管理</a>
+            <a href="review.html">複賽報名查看</a>
+            <a href="scoreManage.html">成績處理</a>
+            <a href="awardPrint.html">獎狀套印</a>
+            <a href="passwordChange.html">密碼變更</a>
+        </nav>
+
+        <div class="header-actions">
+            <!-- 後端：承辦單位名稱由登入資訊帶入 -->
+            <p class="header-user m-0"><strong>承辦學校</strong> 你好</p>
+            <a class="btnRounded btn-outline btn-compact" href="index.html">登出
+                <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+            </a>
+            <button class="header-burger" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-expanded="false" aria-label="開啟主選單">
+                <i class="bi bi-list" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- 行動版選單：不可放在 .site-header 內，避免 position:fixed 子層以 header 為定位基準 -->
+<div class="offcanvas offcanvas-end header-offcanvas" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+    <div class="offcanvas-header">
+        <h2 class="visually-hidden" id="mobileMenuLabel">主選單</h2>
+        <p class="offcanvas-user m-0"><strong>承辦學校</strong> 你好</p>
+        <button type="button" class="btnRounded btn-ghost btn-compact" data-bs-dismiss="offcanvas" aria-label="關閉選單">
+            <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="offcanvas-body">
+        <nav class="offcanvas-nav" aria-label="行動版主選單">
+            <a class="offcanvas-nav-link" href="schoolManage.html">學校管理</a>
+            <a class="offcanvas-nav-link" href="review.html">複賽報名查看</a>
+            <a class="offcanvas-nav-link" href="scoreManage.html">成績處理</a>
+            <a class="offcanvas-nav-link" href="awardPrint.html">獎狀套印</a>
+            <a class="offcanvas-nav-link" href="passwordChange.html">密碼變更</a>
+        </nav>
+        <a class="btnRounded btn-outline" href="index.html">登出
+            <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>

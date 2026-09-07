@@ -1,0 +1,60 @@
+// ============================================================
+// Flex 結構 utility（結構與樣式分離：排版寫在 HTML class 上）
+// 命名規則：flex-{方向}-{對齊}；間距一律由父元素 gap 控制（CLAUDE.md §7）
+// 可與 Bootstrap 原生 utility（d-flex、gap-*、w-100…）混用
+// ============================================================
+
+.flex-row-center {
+    display: flex;
+    align-items: center;
+}
+
+.flex-row-start {
+    display: flex;
+    align-items: flex-start;
+}
+
+.flex-row-end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.flex-row-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-column-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flex-column-start {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.flex-column-between {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.flex-center-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}

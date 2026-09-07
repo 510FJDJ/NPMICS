@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <script>
+        // 無障礙：清掉網址列殘留的錨點 hash，避免重新整理時瀏覽器原生錨點跳轉
+        if (window.location.hash) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo/edu_logo.png" type="image/png">
+    <title>報名確認 | 115學年度新北區數理暨資訊學科能力競賽複賽報名系統</title>
+    <meta name="description" content="115學年度新北區數理暨資訊學科能力競賽複賽報名確認：確認貴校是否參加本次複賽報名，不報名者請下載切結書簽核後上傳。">
+
+    <link rel="stylesheet" href="css/all.css">
+</head>
+<body>
+    <!-- 無障礙：跳過導覽列，進入主要內容區 -->
+    <a href="#goCenter" class="sr-only focusable" accesskey="C" title="跳過導覽列，進入主要內容區">主要內容區</a>
+    <!-- 無障礙：跳至上方導覽列（僅供 Alt+U 快速鍵定位）-->
+    <a href="#headerNav" class="sr-only focusable" accesskey="U" title="跳至上方導覽列" tabindex="-1">上方導覽列</a>
+
+    <div id="header" data-layout="layout/header_School.html"></div>
+
+    <main id="goCenter" tabindex="-1">
+        <!-- 內頁橫幅：平面幾何科學風插畫背景（裝飾性，CSS background） -->
+        <div class="pageBanner wizardPageHeader pageBanner--overlap">
+            <h1>複賽報名</h1>
+        </div>
+
+        <section class="container py-6 contentOverlap">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <!-- 後端：學校名稱由登入資訊帶入 -->
+                    <form class="formSection" id="applyConfirmForm" action="/applyConfirm" method="POST" novalidate>
+                        <div class="formSection-header">
+                            <div class="formSection-title">
+                                <h2 class="formSection-titleText">基隆市立中山高級中學 報名確認</h2>
+                            </div>
+                        </div>
+
+                        <!-- 名額說明：報名前第一步就要看到（使用者需求） -->
+                        <div class="formSection-hint--warn formSection-hint" role="note">
+                            <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                            <div>
+                                <p class="quotaList-lead">複賽名額：每人以報名及參加 1 科為限。</p>
+                                <ul class="quotaList">
+                                    <li>1. 115學年度核定有數理資優班之學校，每科選派<strong>至多 6 人</strong>參加。</li>
+                                    <li>2. 普通科 51 班以上學校，每校每科選派<strong>至多 4 人</strong>參加。</li>
+                                    <li>3. 普通科 50 班以下學校，每科選派<strong>至多 2 人</strong>參加。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="formField col-lg-6">
+                            <label class="formField-label" for="applyDecision">是否複賽報名
+                                <span class="requiredPill">必填</span>
+                            </label>
+                            <select class="selectField" id="applyDecision" name="applyDecision" required>
+                                <option value="" selected disabled>請選擇</option>
+                                <option value="yes">報名</option>
+                                <option value="no">不報名</option>
+                            </select>
+                        </div>
+
+                        <!-- 不報名：切結書下載＋掃描上傳，以編號步驟卡片區隔兩個動作 -->
+                        <div id="declineBlock" hidden>
+                            <h3 class="formSection-subheading">切結書
+                                <span class="requiredPill">必填</span>
+                            </h3>
+
+                            <div class="declineStep">
+                                <div class="declineStep-item">
+                                    <span class="declineStep-num" aria-hidden="true">1</span>
+                                    <div class="declineStep-body">
+                                        <p class="declineStep-title">下載並完成校內簽核</p>
+                                        <p class="mb-3">
+                                            <a class="btnRounded btn-outline btn-compact" href="#" download>
+                                                <i class="bi bi-download" aria-hidden="true"></i>新北數理不報名切結書下載
+                                            </a>
+                                        </p>
+                                        <ul class="quotaList mb-0">
+                                            <li>1. 請填寫學校全銜並於下方簽核處用印。</li>
+                                            <li>2. 請掃描成 pdf 檔後上傳。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="declineStep-item">
+                                    <span class="declineStep-num" aria-hidden="true">2</span>
+                                    <div class="declineStep-body">
+                                        <p class="declineStep-title">掃描後上傳</p>
+                                        <div class="formField">
+                                            <label class="formField-label" for="declineFile">上傳簽核後切結書</label>
+                                            <div class="uploadField">
+                                                <label class="btnRounded btn-outline btn-compact" for="declineFile">
+                                                    <i class="bi bi-upload" aria-hidden="true"></i>選擇檔案
+                                                </label>
+                                                <span class="uploadBtn-help" id="declineFileHelp">尚未選擇檔案，格式限 pdf，單檔上限 10MB</span>
+                                                <input type="file" id="declineFile" name="declineFile" class="sr-only js-fileInput" accept=".pdf" data-help="declineFileHelp">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-center-center mt-6">
+                            <button type="button" class="btnRounded btn-indigo col-lg-3 col-8" id="btnConfirmSave" aria-disabled="true" aria-describedby="confirmSaveHint">儲存</button>
+                        </div>
+                        <p class="text-center mt-2 formField-note" id="confirmSaveHint">請先選擇是否複賽報名</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 儲存成功 Modal -->
+    <div class="modal fade submitModal submitModal--center" id="confirmSuccessModal" tabindex="-1" aria-labelledby="confirmSuccessTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="關閉"></button>
+                </div>
+                <div class="modal-body">
+                    <span class="submitModal-successIcon" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+                    <h2 class="submitModal-title" id="confirmSuccessTitle">複賽報名確認</h2>
+                    <p class="submitModal-desc">儲存成功</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <!-- 選「報名」時：確認後前往四步驟報名頁（由 js/applyConfirm.js 切換）-->
+                    <button type="button" class="btnRounded btn-indigo" id="btnConfirmSuccessOk" data-bs-dismiss="modal">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 回到頂部 -->
+    <button type="button" class="scroll-top-btn" aria-label="回到頁面頂端">
+        <i class="bi bi-arrow-up" aria-hidden="true"></i>
+        <span class="scroll-top-text">置頂</span>
+    </button>
+
+    <div id="footer" data-layout="layout/footer.html"></div>
+
+    <!-- 全站腳本（本地端，禁止 CDN）：順序不可調換 -->
+    <script src="js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/applyConfirm.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+// ============================================================
+// 登入／密碼變更版面：頁面標題＋置中白卡（比照 PM 設計稿）
+// ============================================================
+
+.authSection {
+    padding: 48px 0 64px;
+}
+
+.authTitle {
+    margin-bottom: 32px;
+    text-align: center;
+    font-size: 1.75rem;
+}
+
+// 標題底線裝飾：短黃槓（點綴用，$accent-100 不得用於文字）
+.authTitle::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 4px;
+    margin: 12px auto 0;
+    border-radius: 2px;
+    background-color: $accent-100;
+}
+
+.authCard {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 32px 28px;
+    border: 1px solid $border-100;
+    border-radius: 16px;
+    background-color: $white;
+    box-shadow: $shadow-card-float;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.authCard-title {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+// 首次登入提醒列（PM 設計稿黃底提示）
+.authNotice {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 14px;
+    border: 1px solid #F5DFA8;
+    border-radius: 8px;
+    background-color: #FDF6E3;
+    color: $warning-100;
+    font-size: 1rem;
+}
+
+// 卡片底部次要連結（忘記密碼）
+.authCard-footer {
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: $breakpoint-single) {
+    .authSection {
+        padding: 32px 0 48px;
+    }
+
+    .authCard {
+        padding: 24px 20px;
+    }
+}

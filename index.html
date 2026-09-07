@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <script>
+        // 無障礙：清掉網址列殘留的錨點 hash（例如按過跳過導覽連結後留下的 #goCenter），
+        // 避免重新整理時瀏覽器原生錨點跳轉把捲動位置與焦點帶到該錨點，而非停留頁首
+        if (window.location.hash) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo/edu_logo.png" type="image/png">
+    <title>登入 | 115學年度新北區數理暨資訊學科能力競賽複賽報名系統</title>
+    <meta name="keywords" content="115學年度, 新北市, 數理學科, 資訊學科, 學科能力競賽, 複賽, 報名系統, 高中競賽, 科學教育, 資訊教育, 學生比賽">
+    <meta name="description" content="115學年度普通型高級中等學校數理暨資訊學科能力競賽新北區複賽報名系統，提供線上報名、資格審查與比賽資訊，提升學生對科學與資訊研究之興趣，促進校際觀摩與教育品質。">
+
+    <meta property="og:title" content="115學年度新北區數理暨資訊學科能力競賽｜複賽報名系統">
+    <meta property="og:description" content="線上報名系統，掌握115學年度新北區數理暨資訊學科能力競賽複賽資訊，包含資格審查、比賽日期與注意事項，方便師生快速完成報名流程。">
+    <meta property="og:url" content="#">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="img/logo/eduLogo.png">
+
+    <link rel="stylesheet" href="css/all.css">
+</head>
+<body class="hasFullIllustration">
+    <!-- 無障礙：跳過導覽列，進入主要內容區 -->
+    <a href="#goCenter" class="sr-only focusable" accesskey="C" title="跳過導覽列，進入主要內容區">主要內容區</a>
+
+    <main id="goCenter" tabindex="-1">
+        <section class="authSection">
+            <div class="container">
+                <h1 class="authTitle">115年新北區數理暨資訊學科能力競賽 - 複賽報名系統</h1>
+
+                <!-- 後端：action 與驗證邏輯由後端接手 -->
+                <form class="authCard" id="loginForm" action="/login" method="POST" novalidate>
+                    <h2 class="authCard-title">登入</h2>
+
+                    <div class="formField">
+                        <label class="formField-label" for="loginAccount">帳號
+                            <span class="requiredPill">必填</span>
+                        </label>
+                        <input class="inputText" type="text" id="loginAccount" name="loginAccount" autocomplete="username" placeholder="請輸入帳號" required>
+                    </div>
+
+                    <div class="formField">
+                        <label class="formField-label" for="loginPassword">密碼
+                            <span class="requiredPill">必填</span>
+                        </label>
+                        <div class="inputText-wrap">
+                            <input class="inputText" type="password" id="loginPassword" name="loginPassword" autocomplete="current-password" placeholder="請輸入密碼(需區分大小寫)" required>
+                            <button type="button" class="inputPasswordToggle" data-target="loginPassword" aria-label="顯示密碼">
+                                <i class="bi bi-eye-slash" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="formField">
+                        <label class="formField-label" for="loginCaptcha">圖形驗證碼
+                            <span class="requiredPill">必填</span>
+                        </label>
+                        <div class="captchaRow">
+                            <input class="inputText" type="text" id="loginCaptcha" name="loginCaptcha" inputmode="latin" autocomplete="off" placeholder="請輸入圖片中顯示的 4 位英數字" required>
+                            <div class="captchaImage" aria-hidden="true">
+                                <span class="captchaImage-text js-captchaText">A B 3 8</span>
+                            </div>
+                        </div>
+                        <div class="captchaActions">
+                            <button type="button" class="captchaAction js-captchaVoice" aria-label="播放驗證碼語音">
+                                <i class="bi bi-volume-up" aria-hidden="true"></i>語音播放
+                            </button>
+                            <button type="button" class="captchaAction js-captchaRefresh" aria-label="重新產生驗證碼">
+                                <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>重新整理
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btnRounded btn-indigo w-100">立即登入
+                        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="authCard-footer">
+                        <!-- 後端：忘記密碼流程由後端提供 -->
+                        <a class="btnText" href="#">忘記密碼？</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- 回到頂部 -->
+    <button type="button" class="scroll-top-btn" aria-label="回到頁面頂端">
+        <i class="bi bi-arrow-up" aria-hidden="true"></i>
+        <span class="scroll-top-text">置頂</span>
+    </button>
+
+    <div id="footer" data-layout="layout/footer.html"></div>
+
+    <!-- 全站腳本（本地端，禁止 CDN）：順序不可調換 -->
+    <script src="js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

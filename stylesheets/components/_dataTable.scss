@@ -1,0 +1,174 @@
+// ==========================================================================
+// 學生資料表格（參考彰化 NCSES-SMS 評量明細表模式）：
+// md 以上以水平捲動容器承載寬表格＋最右「操作」欄 sticky 固定，
+// < md 轉直式區塊（data-label + ::before 顯示欄名），全程不產生頁面水平捲軸
+// ==========================================================================
+
+.data-table-wrap {
+    // position: relative 為必要設定：儲存格內的 .sr-only 隱藏標籤是 position: absolute，
+    // 若本容器不是定位基準，其靜態位置落在表格捲動範圍內時會把整頁文件撐寬
+    position: relative;
+
+    @media (min-width: 768px) {
+        overflow-x: auto;
+        border-radius: 8px;
+        outline: 1px solid $border-100;
+    }
+}
+
+.data-table {
+    margin-bottom: 0;
+
+    th,
+    td {
+        vertical-align: middle;
+        text-align: center;
+        padding: 10px 8px;
+        background-color: $white; // sticky 欄需要不透明底，統一由儲存格自身上色
+    }
+
+    thead th {
+        background-color: $primary-10;
+        color: $primary-100;
+        font-weight: 500;
+        white-space: nowrap;
+        border-bottom: 0;
+    }
+
+    tbody tr:nth-child(even) th,
+    tbody tr:nth-child(even) td {
+        background-color: $bg-100;
+    }
+
+    tbody td,
+    tbody th {
+        border-bottom: 1px solid $border-100;
+    }
+
+    // 表格內的輸入欄位：縮小高度以維持列高
+    .inputText,
+    .selectField {
+        height: 44px;
+        min-width: 120px;
+    }
+
+    .selectField {
+        min-width: 96px;
+    }
+}
+
+// 寬版表格：md 以上維持單列橫排、水平捲動
+.data-table--wide {
+    @media (min-width: 768px) {
+        min-width: 1280px;
+
+        th,
+        td {
+            white-space: nowrap;
+        }
+    }
+}
+
+// ---- 最右操作欄 sticky：新增／刪除按鈕永遠可見（PM 需求）----
+@media (min-width: 768px) {
+    .data-table .cell-sticky {
+        position: sticky;
+        right: 0;
+        z-index: 2;
+        // 左緣陰影提示底下還有可捲動內容
+        box-shadow: -6px 0 8px -6px rgba(15, 23, 42, .18);
+    }
+}
+
+// --------------------------------------------------------------------------
+// RWD：< md 轉直式區塊
+// --------------------------------------------------------------------------
+@media (max-width: 767.98px) {
+    .data-table {
+        display: block;
+
+        thead {
+            display: none; // 欄名改由各格 data-label 呈現
+        }
+
+        tbody,
+        tr,
+        td {
+            display: block;
+            width: 100%;
+        }
+
+        tbody tr {
+            margin-bottom: 16px;
+            border: 1px solid $border-100;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: $white;
+
+            th,
+            td {
+                background-color: $white;
+            }
+        }
+
+        tbody td {
+            display: flex;
+            align-items: stretch;
+            padding: 0;
+            border-bottom: 1px solid $border-100;
+            text-align: left;
+
+            &:last-child {
+                border-bottom: 0;
+            }
+
+            // 左側欄名標籤
+            &::before {
+                content: attr(data-label);
+                flex: 0 0 35%;
+                display: flex;
+                align-items: center;
+                padding: 10px 12px;
+                background-color: $primary-10;
+                color: $primary-100;
+                font-weight: 500;
+                word-break: break-word;
+            }
+        }
+
+        // 右側內容值
+        // min-width: 0 為必要設定：flex 子項預設 min-width:auto 會依內容最大寬度撐開，
+        // 導致長文字把整個頁面往右推出水平捲軸
+        .cell-value {
+            flex: 1 1 auto;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+        }
+
+        .cell-value .inputText,
+        .cell-value .selectField {
+            min-width: 0;
+        }
+
+        .cell-sticky .btnRounded {
+            width: 100%;
+        }
+    }
+}
+
+// ---- 表格上方工具列：科別標題＋新增整列按鈕 ----
+.data-tableToolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.data-tableToolbar-count {
+    color: $text-200;
+    font-size: .9375rem;
+}

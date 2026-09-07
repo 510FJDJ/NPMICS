@@ -1,0 +1,48 @@
+// ============================================================
+// 回到頂部按鈕：固定 bottom: 50px; right: 25px;（CLAUDE.md §4 硬性座標）
+// 平滑捲動由 js/main.js 以純 JS 座標計算實作
+// ============================================================
+
+.scroll-top-btn {
+    position: fixed;
+    right: 25px;
+    bottom: 50px;
+    z-index: 1020;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    width: 60px;
+    height: 60px;
+    border: 1px solid $border-100;
+    border-radius: 999px;
+    background-color: $white;
+    color: $primary-100;
+    box-shadow: $shadow-card-float;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity $dur-ui $ease-brand, visibility $dur-ui $ease-brand, transform $dur-ui $ease-brand;
+
+    &.is-visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+        border-color: $primary-100;
+    }
+
+    .bi {
+        font-size: 1rem;
+        line-height: 1;
+    }
+
+    .scroll-top-text {
+        font-size: .8125rem;
+        letter-spacing: .1em;
+        line-height: 1.2;
+    }
+}

@@ -1,0 +1,106 @@
+// ============================================================
+// 內容區主要卡片（design.md §3）：白底、1px 細框、16 圓角、輕陰影
+// 卡內大標題＋次分區小標＋資訊提示列
+// ============================================================
+
+.formSection {
+    position: relative;
+    padding: 24px;
+    border: 1px solid $border-100;
+    border-radius: 16px;
+    background-color: $white;
+    box-shadow: $shadow-card;
+}
+
+.formSection + .formSection {
+    margin-top: 24px;
+}
+
+.formSection-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.formSection-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+// 標題前置裝飾條：靛藍短槓，取代舊版圖片裝飾
+.formSection-title::before {
+    content: "";
+    width: 6px;
+    height: 22px;
+    border-radius: 3px;
+    background-color: $primary-100;
+    flex-shrink: 0;
+}
+
+.formSection-titleText {
+    margin: 0;
+    color: $primary-100;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+// 資訊提示列：淡靛藍底
+.formSection-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: $primary-10;
+    color: $primary-100;
+    font-size: 1rem;
+}
+
+// 警示提示列：名額限制等須注意內容（顏色＋文字並用）
+.formSection-hint--warn {
+    background-color: #FEF3E7;
+    color: $warning-100;
+}
+
+// ---- formSection 內的次分區小標，上方以分隔線與前段欄位隔開 ----
+.formSection-subheading {
+    margin: 24px 0 16px;
+    padding-top: 20px;
+    border-top: 1px solid $border-100;
+    color: $primary-100;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.formSection-subheading .formField-note {
+    font-weight: 400;
+}
+
+// ---- 名額說明清單（複賽名額限制）----
+.quotaList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: $text-100;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.quotaList-lead {
+    margin-bottom: 8px;
+    color: $text-100;
+    font-size: 1.0625rem;
+    font-weight: 500;
+}
+
+.quotaList strong {
+    color: $warning-100;
+}

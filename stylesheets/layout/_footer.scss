@@ -1,0 +1,101 @@
+// ============================================================
+// 全站 Footer：深靛藍底白字，諮詢電話清單＋系統識別＋版權列
+// ============================================================
+
+.site-footer {
+    flex-shrink: 0;
+    background-color: $primary-100;
+    color: $white;
+
+    a {
+        color: $white;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+
+        &:hover {
+            color: $primary-10;
+        }
+    }
+}
+
+.footer-main {
+    padding: 40px 0 32px;
+}
+
+.footer-main .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.footer-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    color: $white;
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+// 隱藏式頁尾錨點（Alt+Z）：僅供鍵盤定位，視覺上維持低調
+.footer-anchor {
+    color: $white;
+    text-decoration: none;
+    font-size: .875rem;
+}
+
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-width: 560px;
+}
+
+.footer-contact-item p {
+    margin-top: 2px;
+    color: $primary-10;
+    font-size: 1rem;
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+// 教育局 Logo 原檔為深色字，墊白色圓角底以確保深藍底上的辨識度
+.footer-brand img {
+    width: 200px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: $white;
+}
+
+.footer-brand-text {
+    line-height: 1.5;
+    color: $primary-10;
+}
+
+.footer-copyright {
+    padding: 16px 0;
+    border-top: 1px solid rgba(255, 255, 255, .24);
+    font-size: .875rem;
+    color: $primary-10;
+    text-align: center;
+}
+
+.footer-copyright p {
+    margin: 0;
+}
+
+@media (max-width: $breakpoint-single) {
+    .footer-main .container {
+        flex-direction: column;
+    }
+}

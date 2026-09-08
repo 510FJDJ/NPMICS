@@ -14,6 +14,36 @@
     background-color: $white;
 }
 
+// ---- 雙排 header（局端：選單項目多，移到第二排避免上排被擠壓）----
+.site-header--dual {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0; // 交由上排 header-topRow 撐高
+}
+
+.header-topRow {
+    display: flex;
+    align-items: center;
+    min-height: $header-height;
+}
+
+.header-navRow {
+    border-top: 1px solid $border-100;
+
+    // 第二排選單列：置中排列於容器內
+    .header-nav {
+        justify-content: center;
+        min-height: 52px;
+        gap: 2px;
+    }
+}
+
+@media (max-width: $breakpoint-single) {
+    .header-navRow {
+        display: none; // 行動版收進 offcanvas
+    }
+}
+
 .header-brand {
     display: flex;
     align-items: center;
@@ -119,8 +149,9 @@
 }
 
 @media (max-width: $breakpoint-single) {
-    .header-user {
-        display: none; // 行動版移入 offcanvas
+    .header-user,
+    a.header-logout {
+        display: none; // 行動版移入 offcanvas（登出改由 offcanvas 選單提供）
     }
 }
 

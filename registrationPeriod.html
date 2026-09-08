@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <script>
+        // 無障礙：清掉網址列殘留的錨點 hash，避免重新整理時瀏覽器原生錨點跳轉
+        if (window.location.hash) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo/edu_logo.png" type="image/png">
+    <title>報名期間設定 | 115學年度新北區數理暨資訊學科能力競賽複賽報名系統</title>
+    <meta name="description" content="115學年度新北區數理暨資訊學科能力競賽報名期間設定：管理者設定各年度複賽報名的開放起訖時間，控制學校端可填報的期間。">
+
+    <link rel="stylesheet" href="css/all.css">
+</head>
+<body>
+    <!-- 無障礙：跳過導覽列，進入主要內容區 -->
+    <a href="#goCenter" class="sr-only focusable" accesskey="C" title="跳過導覽列，進入主要內容區">主要內容區</a>
+    <!-- 無障礙：跳至上方導覽列（僅供 Alt+U 快速鍵定位）-->
+    <a href="#headerNav" class="sr-only focusable" accesskey="U" title="跳至上方導覽列" tabindex="-1">上方導覽列</a>
+
+    <div id="header" data-layout="layout/header_Bureau.html"></div>
+
+    <main id="goCenter" tabindex="-1">
+        <!-- 內頁橫幅：平面幾何科學風插畫背景（裝飾性，CSS background） -->
+        <div class="pageBanner wizardPageHeader pageBanner--overlap">
+            <h1>報名期間設定</h1>
+        </div>
+
+        <section class="container py-6 contentOverlap">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <form class="formSection" id="periodForm" action="/registrationPeriod" method="POST" novalidate>
+                        <div class="formSection-header">
+                            <div class="formSection-title">
+                                <h2 class="formSection-titleText">複賽報名期間</h2>
+                            </div>
+                        </div>
+
+                        <p class="formSection-hint" role="note">
+                            <i class="bi bi-info-circle" aria-hidden="true"></i>
+                            管理者專用：設定後，學校端僅能於此起訖時間內進行複賽報名填報與上傳。
+                        </p>
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="formField">
+                                    <label class="formField-label" for="periodYear">年度
+                                        <span class="requiredPill">必填</span>
+                                    </label>
+                                    <!-- 後端：預設帶入當年度 -->
+                                    <select class="selectField" id="periodYear" name="year" required>
+                                        <option value="115" selected>115 學年度</option>
+                                        <option value="114">114 學年度</option>
+                                        <option value="113">113 學年度</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12"></div>
+                            <div class="col-md-6">
+                                <div class="formField">
+                                    <label class="formField-label" for="periodStart">複賽報名開始
+                                        <span class="requiredPill">必填</span>
+                                    </label>
+                                    <input class="inputText" type="datetime-local" id="periodStart" name="start" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="formField">
+                                    <label class="formField-label" for="periodEnd">複賽報名結束
+                                        <span class="requiredPill">必填</span>
+                                    </label>
+                                    <input class="inputText" type="datetime-local" id="periodEnd" name="end" required aria-describedby="periodEndError">
+                                    <p class="formField-error" id="periodEndError" hidden>
+                                        <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+                                        <span id="periodEndErrorText">結束時間必須晚於開始時間</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="formField">
+                                    <label class="formField-label" for="periodNote">備註</label>
+                                    <textarea class="inputText" id="periodNote" name="note" placeholder="可填寫本年度報名期間相關說明（選填）"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-center-center mt-6">
+                            <button type="button" class="btnRounded btn-indigo col-lg-3 col-8" id="btnSavePeriod">
+                                <i class="bi bi-save" aria-hidden="true"></i>儲存
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 儲存成功 Modal -->
+    <div class="modal fade submitModal submitModal--center" id="periodSuccessModal" tabindex="-1" aria-labelledby="periodSuccessTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="關閉"></button>
+                </div>
+                <div class="modal-body">
+                    <span class="submitModal-successIcon" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+                    <h2 class="submitModal-title" id="periodSuccessTitle">報名期間已儲存</h2>
+                    <p class="submitModal-desc">已更新本年度複賽報名的開放起訖時間。</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btnRounded btn-indigo" data-bs-dismiss="modal">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 回到頂部 -->
+    <button type="button" class="scroll-top-btn" aria-label="回到頁面頂端">
+        <i class="bi bi-arrow-up" aria-hidden="true"></i>
+        <span class="scroll-top-text">置頂</span>
+    </button>
+
+    <div id="footer" data-layout="layout/footer.html"></div>
+
+    <!-- 全站腳本（本地端，禁止 CDN）：順序不可調換 -->
+    <script src="js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/registrationPeriod.js"></script>
+</body>
+</html>

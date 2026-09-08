@@ -1,0 +1,48 @@
+// ============================================================
+// 查詢／篩選卡（局端報名查看、成績處理、學校管理共用）
+// 白底細框 16 圓角卡片，內含自適應欄位網格＋右側查詢動作
+// 欄位沿用 .formField / .formField-label / .inputText / .selectField
+// ============================================================
+
+.filterCard {
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid $border-100;
+    border-radius: 16px;
+    background-color: $white;
+    box-shadow: $shadow-card;
+}
+
+// 欄位網格：桌機自動排列，窄螢幕自然換行為單欄
+.filterCard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px 20px;
+    align-items: end;
+}
+
+// 動作列（查詢／匯入等按鈕）：置中，窄螢幕撐滿
+.filterCard-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+// 篩選規則等補充說明（如「科別及名次為下拉，其餘關鍵字模糊查詢」）
+.filterCard-note {
+    margin: 12px 0 0;
+    color: $text-200;
+    font-size: .9375rem;
+}
+
+@media (max-width: $breakpoint-single) {
+    .filterCard-actions {
+        justify-content: stretch;
+    }
+
+    .filterCard-actions .btnRounded {
+        flex: 1 1 auto;
+    }
+}

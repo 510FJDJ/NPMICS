@@ -15827,6 +15827,32 @@ textarea:focus-visible {
   background-color: #FFFFFF;
 }
 
+.site-header--dual {
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.header-topRow {
+  display: flex;
+  align-items: center;
+  min-height: 72px;
+}
+
+.header-navRow {
+  border-top: 1px solid #E2E8F0;
+}
+.header-navRow .header-nav {
+  justify-content: center;
+  min-height: 52px;
+  gap: 2px;
+}
+
+@media (max-width: 992px) {
+  .header-navRow {
+    display: none;
+  }
+}
 .header-brand {
   display: flex;
   align-items: center;
@@ -15924,7 +15950,8 @@ textarea:focus-visible {
 }
 
 @media (max-width: 992px) {
-  .header-user {
+  .header-user,
+  a.header-logout {
     display: none;
   }
 }
@@ -16127,6 +16154,22 @@ textarea:focus-visible {
   border-color: #173F8F;
   color: #173F8F;
 }
+.btnRounded.btn-outlineWarning {
+  background-color: #FFFFFF;
+  border-color: #B45309;
+  color: #B45309;
+}
+.btnRounded.btn-outlineWarning:hover {
+  background-color: #FEF3E7;
+}
+.btnRounded.btn-outlineSuccess {
+  background-color: #FFFFFF;
+  border-color: #15803D;
+  color: #15803D;
+}
+.btnRounded.btn-outlineSuccess:hover {
+  background-color: #E7F3EC;
+}
 .btnRounded.btn-outlineDanger {
   background-color: #FFFFFF;
   border-color: #B91C1C;
@@ -16225,6 +16268,14 @@ textarea:focus-visible {
 .inputText:read-only {
   background-color: #F8FAFC;
   color: #475569;
+}
+
+textarea.inputText {
+  height: auto;
+  min-height: 96px;
+  padding: 12px 16px;
+  line-height: 1.6;
+  resize: vertical;
 }
 
 .selectField {
@@ -16878,7 +16929,7 @@ body.hasWizardActionBar .scroll-top-btn {
 .data-table .inputText,
 .data-table .selectField {
   height: 44px;
-  min-width: 120px;
+  min-width: 180px;
 }
 .data-table .selectField {
   min-width: 96px;
@@ -16974,6 +17025,176 @@ body.hasWizardActionBar .scroll-top-btn {
 .data-tableToolbar-count {
   color: #475569;
   font-size: 0.9375rem;
+}
+
+.scoreSaveCell {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.scoreSaveCell .js-saveRow {
+  min-height: 32px;
+  padding: 4px 16px;
+  font-size: 0.8125rem;
+  letter-spacing: normal;
+}
+
+@media (min-width: 768px) {
+  .scoreTable .cell-sticky {
+    width: 160px;
+    box-shadow: none;
+  }
+  .scoreTable .cell-sticky-second {
+    position: sticky;
+    right: 160px;
+    z-index: 2;
+    box-shadow: -6px 0 8px -6px rgba(15, 23, 42, 0.18);
+  }
+}
+.filterCard {
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  background-color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.filterCard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px 20px;
+  align-items: end;
+}
+
+.filterCard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.filterCard-note {
+  margin: 12px 0 0;
+  color: #475569;
+  font-size: 0.9375rem;
+}
+
+@media (max-width: 992px) {
+  .filterCard-actions {
+    justify-content: stretch;
+  }
+  .filterCard-actions .btnRounded {
+    flex: 1 1 auto;
+  }
+}
+.combobox {
+  position: relative;
+}
+
+.combobox-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  max-height: 240px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+}
+
+.combobox-option {
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #1F2937;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.combobox-option:hover {
+  background-color: #EEF2FF;
+}
+.combobox-option.is-active {
+  background-color: #173F8F;
+  color: #FFFFFF;
+}
+
+.combobox-empty {
+  padding: 8px 12px;
+  color: #64748B;
+  font-size: 0.9375rem;
+}
+
+.pagination {
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 32px 0 0;
+}
+
+.page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 10px;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  color: #173F8F;
+  font-weight: 500;
+  transition: background-color 160ms cubic-bezier(0.65, 0, 0.35, 1), color 160ms cubic-bezier(0.65, 0, 0.35, 1), border-color 160ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+.page-link:hover {
+  background-color: #EEF2FF;
+  border-color: #173F8F;
+  color: #173F8F;
+}
+
+.page-item.active .page-link {
+  background-color: #173F8F;
+  border-color: #173F8F;
+  color: #FFFFFF;
+}
+
+.page-item.disabled .page-link {
+  background-color: #F8FAFC;
+  border-color: #E2E8F0;
+  color: #64748B;
+  pointer-events: none;
+}
+
+.statusTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.statusTag--success {
+  background-color: #E7F3EC;
+  color: #15803D;
+}
+
+.statusTag--warn {
+  background-color: #FEF3E7;
+  color: #B45309;
+}
+
+.statusTag--muted {
+  background-color: #F8FAFC;
+  color: #64748B;
 }
 
 .scroll-top-btn {
@@ -17193,19 +17414,20 @@ body.hasWizardActionBar .scroll-top-btn {
 .pageBanner {
   position: relative;
   padding: 28px 0;
-  background-image: url("../img/dec/pageBanner.png");
+  background-image: url("../img/dec/pageBanner.svg");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
-  min-height: 180px;
+  background-size: 100% auto;
+  min-height: clamp(180px, 26.9vw, 200px);
   box-shadow: inset 0 0 0 999px rgba(248, 250, 252, 0.45);
 }
 
-body.hasFullIllustration {
-  background-image: url("../img/dec/loginBg.jpg");
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: cover;
+body.hasFullIllustration main {
+  background-color: #B6D4FF;
+  background-image: url("../img/dec/loginBg-bottom.svg"), url("../img/dec/loginBg-top.svg");
+  background-repeat: no-repeat, no-repeat;
+  background-position: bottom center, top center;
+  background-size: 100% auto, 100% auto;
 }
 
 .pageBanner--overlap {

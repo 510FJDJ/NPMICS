@@ -1,0 +1,39 @@
+// ============================================================
+// 成績處理「名次登打」表專屬樣式
+// 沿用 .data-table / .data-table--wide，額外讓「名次」與「儲存狀態」
+// 兩欄同時釘在右側（雙層 sticky），並排版每列的儲存狀態＋儲存按鈕
+// ============================================================
+
+// 每列儲存狀態欄：狀態標籤在上、儲存按鈕在下，垂直置中排列
+.scoreSaveCell {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    // 列內儲存按鈕：比一般 btnRounded 小一號，無 icon，僅文字
+    // （表格內輔助操作，尺寸仍 ≥ 24px 符合 WCAG 2.1 AA 目標尺寸）
+    .js-saveRow {
+        min-height: 32px;
+        padding: 4px 16px;
+        font-size: .8125rem;
+        letter-spacing: normal;
+    }
+}
+
+@media (min-width: 768px) {
+    // 最右「儲存狀態」欄固定寬度，作為「名次」欄的 sticky 位移基準
+    .scoreTable .cell-sticky {
+        width: 160px;
+        // 陰影改由左側「名次」欄（cell-sticky-second）呈現，避免兩欄之間出現內陰影
+        box-shadow: none;
+    }
+
+    // 第二層 sticky：「名次」欄緊貼在最右「儲存狀態」欄左側
+    .scoreTable .cell-sticky-second {
+        position: sticky;
+        right: 160px; // = 儲存狀態欄寬
+        z-index: 2;
+        box-shadow: -6px 0 8px -6px rgba(15, 23, 42, .18);
+    }
+}

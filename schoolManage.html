@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <script>
+        // 無障礙：清掉網址列殘留的錨點 hash，避免重新整理時瀏覽器原生錨點跳轉
+        if (window.location.hash) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo/edu_logo.png" type="image/png">
+    <title>學校管理 | 115學年度新北區數理暨資訊學科能力競賽複賽報名系統</title>
+    <meta name="description" content="115學年度新北區數理暨資訊學科能力競賽學校管理：每年重新匯入各校全校班級數與普通班班級數，維護學校代碼、全銜與承辦人聯絡資料。">
+
+    <link rel="stylesheet" href="css/all.css">
+</head>
+<body>
+    <!-- 無障礙：跳過導覽列，進入主要內容區 -->
+    <a href="#goCenter" class="sr-only focusable" accesskey="C" title="跳過導覽列，進入主要內容區">主要內容區</a>
+    <!-- 無障礙：跳至上方導覽列（僅供 Alt+U 快速鍵定位）-->
+    <a href="#headerNav" class="sr-only focusable" accesskey="U" title="跳至上方導覽列" tabindex="-1">上方導覽列</a>
+
+    <div id="header" data-layout="layout/header_Bureau.html"></div>
+
+    <main id="goCenter" tabindex="-1">
+        <!-- 內頁橫幅：平面幾何科學風插畫背景（裝飾性，CSS background） -->
+        <div class="pageBanner wizardPageHeader pageBanner--overlap">
+            <h1>學校管理</h1>
+        </div>
+
+        <section class="container py-6 contentOverlap">
+            <!-- ===== 年度與匯入 ===== -->
+            <form class="filterCard" id="schoolImport" action="/schoolManage" method="POST" enctype="multipart/form-data">
+                <h2 class="visually-hidden">年度與班級數匯入</h2>
+                <div class="filterCard-grid">
+                    <div class="formField">
+                        <label class="formField-label" for="filterYear">年度</label>
+                        <!-- 後端：預設帶入當年度 -->
+                        <select class="selectField" id="filterYear" name="year">
+                            <option value="115" selected>115 學年度</option>
+                            <option value="114">114 學年度</option>
+                            <option value="113">113 學年度</option>
+                        </select>
+                    </div>
+                    <div class="formField">
+                        <label class="formField-label" for="importFile">匯入檔案</label>
+                        <div class="uploadField">
+                            <label class="btnRounded btn-outline btn-compact" for="importFile">
+                                <i class="bi bi-upload" aria-hidden="true"></i>選擇檔案
+                            </label>
+                            <span class="uploadBtn-help" id="importFileHelp">尚未選擇檔案，格式限 Excel（.xlsx），單檔上限 10MB</span>
+                            <input type="file" id="importFile" name="importFile" class="sr-only js-fileInput" accept=".xlsx,.xls,.csv" data-help="importFileHelp">
+                        </div>
+                    </div>
+                </div>
+                <p class="filterCard-note">每年重新匯入各校的全校班級數及普通班班級數；請先下載匯入範本，依格式填寫後再上傳匯入。</p>
+                <div class="filterCard-actions">
+                    <a class="btnRounded btn-outline" href="#" download>
+                        <i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i>下載匯入範本
+                    </a>
+                    <button type="button" class="btnRounded btn-indigo" id="btnImport" aria-describedby="importFileHelp">
+                        <i class="bi bi-box-arrow-in-down" aria-hidden="true"></i>匯入
+                    </button>
+                </div>
+            </form>
+
+            <!-- ===== 筆數 ===== -->
+            <div class="data-tableToolbar">
+                <h2 class="formSection-titleText">學校清單</h2>
+                <span class="data-tableToolbar-count">筆數：<strong>5</strong></span>
+            </div>
+
+            <!-- ===== 學校清單表 ===== -->
+            <div class="data-table-wrap">
+                <table class="table data-table data-table--wide">
+                    <caption class="sr-only">各校班級數與承辦人資料，每年由匯入更新</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">縣市</th>
+                            <th scope="col">學校代碼</th>
+                            <th scope="col">學校全銜</th>
+                            <th scope="col">全校班級數</th>
+                            <th scope="col">普通班班級數</th>
+                            <th scope="col">承辦人姓名</th>
+                            <th scope="col">電話</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="縣市"><span class="cell-value">新北市</span></td>
+                            <td data-label="學校代碼"><span class="cell-value">234301</span></td>
+                            <td data-label="學校全銜"><span class="cell-value">新北市立中和高級中學</span></td>
+                            <td data-label="全校班級數"><span class="cell-value">68</span></td>
+                            <td data-label="普通班班級數"><span class="cell-value">60</span></td>
+                            <td data-label="承辦人姓名"><span class="cell-value">李珮甄</span></td>
+                            <td data-label="電話"><span class="cell-value">02-22222222</span></td>
+                        </tr>
+                        <tr>
+                            <td data-label="縣市"><span class="cell-value">新北市</span></td>
+                            <td data-label="學校代碼"><span class="cell-value">234302</span></td>
+                            <td data-label="學校全銜"><span class="cell-value">新北市私立淡江高級中學</span></td>
+                            <td data-label="全校班級數"><span class="cell-value">45</span></td>
+                            <td data-label="普通班班級數"><span class="cell-value">40</span></td>
+                            <td data-label="承辦人姓名"><span class="cell-value">王思敏</span></td>
+                            <td data-label="電話"><span class="cell-value">02-26203850</span></td>
+                        </tr>
+                        <tr>
+                            <td data-label="縣市"><span class="cell-value">新北市</span></td>
+                            <td data-label="學校代碼"><span class="cell-value">234303</span></td>
+                            <td data-label="學校全銜"><span class="cell-value">新北市立海山高級中學</span></td>
+                            <td data-label="全校班級數"><span class="cell-value">52</span></td>
+                            <td data-label="普通班班級數"><span class="cell-value">48</span></td>
+                            <td data-label="承辦人姓名"><span class="cell-value">陳冠廷</span></td>
+                            <td data-label="電話"><span class="cell-value">02-22518383</span></td>
+                        </tr>
+                        <tr>
+                            <td data-label="縣市"><span class="cell-value">基隆市</span></td>
+                            <td data-label="學校代碼"><span class="cell-value">100301</span></td>
+                            <td data-label="學校全銜"><span class="cell-value">基隆市立中山高級中學</span></td>
+                            <td data-label="全校班級數"><span class="cell-value">48</span></td>
+                            <td data-label="普通班班級數"><span class="cell-value">45</span></td>
+                            <td data-label="承辦人姓名"><span class="cell-value">林佩璇</span></td>
+                            <td data-label="電話"><span class="cell-value">02-24278364</span></td>
+                        </tr>
+                        <tr>
+                            <td data-label="縣市"><span class="cell-value">金門縣</span></td>
+                            <td data-label="學校代碼"><span class="cell-value">090301</span></td>
+                            <td data-label="學校全銜"><span class="cell-value">國立金門高級中學</span></td>
+                            <td data-label="全校班級數"><span class="cell-value">36</span></td>
+                            <td data-label="普通班班級數"><span class="cell-value">33</span></td>
+                            <td data-label="承辦人姓名"><span class="cell-value">楊承翰</span></td>
+                            <td data-label="電話"><span class="cell-value">082-325604</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ===== 分頁 ===== -->
+            <nav aria-label="學校清單分頁">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="上一頁"><span aria-hidden="true">&laquo;</span></a>
+                    </li>
+                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="下一頁"><span aria-hidden="true">&raquo;</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+    </main>
+
+    <!-- 匯入成功 Modal -->
+    <div class="modal fade submitModal submitModal--center" id="importSuccessModal" tabindex="-1" aria-labelledby="importSuccessTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="關閉"></button>
+                </div>
+                <div class="modal-body">
+                    <span class="submitModal-successIcon" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+                    <h2 class="submitModal-title" id="importSuccessTitle">匯入完成</h2>
+                    <p class="submitModal-desc">已更新本年度各校班級數資料。</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btnRounded btn-indigo" data-bs-dismiss="modal">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 回到頂部 -->
+    <button type="button" class="scroll-top-btn" aria-label="回到頁面頂端">
+        <i class="bi bi-arrow-up" aria-hidden="true"></i>
+        <span class="scroll-top-text">置頂</span>
+    </button>
+
+    <div id="footer" data-layout="layout/footer.html"></div>
+
+    <!-- 全站腳本（本地端，禁止 CDN）：順序不可調換 -->
+    <script src="js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/schoolManage.js"></script>
+</body>
+</html>

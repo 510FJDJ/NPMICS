@@ -1,28 +1,28 @@
 // ============================================================
 // 內頁橫幅（仿基隆 KGIS bannerPhoto 模式）：
-// 平面幾何科學風插畫鋪底（img/dec/，裝飾性質故用 CSS background），
-// 標題置中疊於淡色插畫上；窄螢幕降低高度並維持 cover 比例
+// 平面幾何科學風插畫鋪底（img/dec/，裝飾性質故用 CSS background）
 // ============================================================
 
 .pageBanner {
     position: relative;
-    padding: 28px 0; // 覆蓋 .wizardPageHeader 的不對稱 padding，讓標題在橫幅內垂直置中
-    background-image: url("../img/dec/pageBanner.png");
+    padding: 28px 0; 
+    background-image: url("../img/dec/pageBanner.svg");
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
-    min-height: 180px;
+    background-size: 100% auto;
+    min-height: clamp(180px, 26.9vw, 200px);
     // 插畫為淡色低飽和，仍加一層半透明白確保標題文字對比度
     box-shadow: inset 0 0 0 999px rgba(248, 250, 252, .45);
 }
 
 // ---- 首頁（登入頁）整頁插畫背景 ----
-// background-attachment: fixed 在 iOS 有已知問題，維持預設 scroll
-body.hasFullIllustration {
-    background-image: url("../img/dec/loginBg.jpg");
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: cover;
+
+body.hasFullIllustration main {
+    background-color: $bg-illustration;
+    background-image: url("../img/dec/loginBg-bottom.svg"), url("../img/dec/loginBg-top.svg");
+    background-repeat: no-repeat, no-repeat;
+    background-position: bottom center, top center;
+    background-size: 100% auto, 100% auto;
 }
 
 // ---- 內容區疊上橫幅（PM 需求：主要內容區疊在橫幅背景上增加層次感）----

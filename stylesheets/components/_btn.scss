@@ -53,6 +53,28 @@
         }
     }
 
+    // Outline Warning：橘框白底（成績處理「得獎名單下載」科別分組用，通過 WCAG AA）
+    &.btn-outlineWarning {
+        background-color: $white;
+        border-color: $warning-100;
+        color: $warning-100;
+
+        &:hover {
+            background-color: #FEF3E7; // 同 .statusTag--warn 淡橘底
+        }
+    }
+
+    // Outline Success：綠框白底（成績處理「得獎名單下載」科別分組用，通過 WCAG AA）
+    &.btn-outlineSuccess {
+        background-color: $white;
+        border-color: $success-100;
+        color: $success-100;
+
+        &:hover {
+            background-color: #E7F3EC; // 同 .statusTag--success 淡綠底
+        }
+    }
+
     // Outline Danger：紅框白底（刪除等破壞性操作）
     &.btn-outlineDanger {
         background-color: $white;

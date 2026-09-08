@@ -21,6 +21,12 @@ $border-100: #E2E8F0; // 卡片邊框、分隔線
 $bg-100:     #F8FAFC; // 全站頁面底色
 $white:      #FFFFFF;
 
+// ---- 插畫背景底色 ----
+// 與 img/dec/loginBg-top.png、loginBg-bottom.png 的插畫底色完全一致，
+// 用於 body.hasFullIllustration 填滿上下裁切圖之間的空隙，銜接無縫（design.md §1.2）
+// 與 $text-100 疊加對比約 9.68:1，故標題可直接疊在此色上
+$bg-illustration: #B6D4FF;
+
 // ---- 功能色 semantic/*（一律顏色＋文字並用，不可只靠顏色）----
 $success-100: #15803D; // 成功、「已完成」、完成步驟綠勾
 $warning-100: #B45309; // 提醒、必填、「尚未填寫／尚未上傳」、名額備註重點

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <script>
+        // 無障礙：清掉網址列殘留的錨點 hash，避免重新整理時瀏覽器原生錨點跳轉
+        if (window.location.hash) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo/edu_logo.png" type="image/png">
+    <title>成績處理 | 115學年度新北區數理暨資訊學科能力競賽複賽報名系統</title>
+    <meta name="description" content="115學年度新北區數理暨資訊學科能力競賽成績處理：依年度、科別、學校、學生姓名、指導老師與名次查詢，逐列登打第一名至第八名及佳作，並提供各科得獎名單與資料匯出。">
+
+    <link rel="stylesheet" href="css/all.css">
+</head>
+<body>
+    <!-- 無障礙：跳過導覽列，進入主要內容區 -->
+    <a href="#goCenter" class="sr-only focusable" accesskey="C" title="跳過導覽列，進入主要內容區">主要內容區</a>
+    <!-- 無障礙：跳至上方導覽列（僅供 Alt+U 快速鍵定位）-->
+    <a href="#headerNav" class="sr-only focusable" accesskey="U" title="跳至上方導覽列" tabindex="-1">上方導覽列</a>
+
+    <div id="header" data-layout="layout/header_Bureau.html"></div>
+
+    <main id="goCenter" tabindex="-1">
+        <!-- 內頁橫幅：平面幾何科學風插畫背景（裝飾性，CSS background） -->
+        <div class="pageBanner wizardPageHeader pageBanner--overlap">
+            <h1>成績處理</h1>
+        </div>
+
+        <section class="container py-6 contentOverlap">
+            <!-- ===== 查詢條件 ===== -->
+            <form class="filterCard" id="scoreFilter" action="/scoreManage" method="GET">
+                <h2 class="visually-hidden">查詢條件</h2>
+                <div class="filterCard-grid">
+                    <div class="formField">
+                        <label class="formField-label" for="filterYear">年度</label>
+                        <!-- 後端：預設帶入當年度 -->
+                        <select class="selectField" id="filterYear" name="year">
+                            <option value="115" selected>115 學年度</option>
+                            <option value="114">114 學年度</option>
+                            <option value="113">113 學年度</option>
+                        </select>
+                    </div>
+                    <div class="formField">
+                        <label class="formField-label" for="filterSubject">科別</label>
+                        <select class="selectField" id="filterSubject" name="subject">
+                            <option value="" selected>全部</option>
+                            <option value="bio">生物科</option>
+                            <option value="phy">物理科</option>
+                            <option value="math">數學科</option>
+                            <option value="che">化學科</option>
+                            <option value="info">資訊科</option>
+                            <option value="es">地球科學科</option>
+                        </select>
+                    </div>
+                    <div class="formField">
+                        <label class="formField-label" for="filterSchool">學校</label>
+                        <!-- 可搜尋下拉：點選展開搜尋框＋清單，輸入即時過濾（後端：選項清單由後端帶入） -->
+                        <div class="combobox" data-combobox>
+                            <input class="inputText combobox-input" type="text" id="filterSchool" name="school"
+                                   role="combobox" aria-expanded="false" aria-controls="filterSchool-listbox"
+                                   aria-autocomplete="list" autocomplete="off" placeholder="點選以搜尋學校">
+                            <ul class="combobox-list" id="filterSchool-listbox" role="listbox" aria-label="學校清單" hidden>
+                                <li class="combobox-option" role="option" id="filterSchool-opt-0">新北市立中和高級中學</li>
+                                <li class="combobox-option" role="option" id="filterSchool-opt-1">新北市立海山高級中學</li>
+                                <li class="combobox-option" role="option" id="filterSchool-opt-2">南山學校財團法人新北市南山高級中學</li>
+                                <li class="combobox-option" role="option" id="filterSchool-opt-3">私立康橋學校財團法人新北市康橋高級中學</li>
+                                <li class="combobox-option" role="option" id="filterSchool-opt-4">新北市私立裕德雙語高級中學</li>
+                                <li class="combobox-option" role="option" id="filterSchool-opt-5">新北市私立淡江高級中學</li>
+                                <li class="combobox-option" role="option" id="filterSchool-opt-6">華東臺商子女學校</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="formField">
+                        <label class="formField-label" for="filterStudent">學生姓名</label>
+                        <!-- 可搜尋下拉：點選展開搜尋框＋清單，輸入即時過濾（後端：選項清單由後端帶入） -->
+                        <div class="combobox" data-combobox>
+                            <input class="inputText combobox-input" type="text" id="filterStudent" name="student"
+                                   role="combobox" aria-expanded="false" aria-controls="filterStudent-listbox"
+                                   aria-autocomplete="list" autocomplete="off" placeholder="點選以搜尋學生姓名">
+                            <ul class="combobox-list" id="filterStudent-listbox" role="listbox" aria-label="學生姓名清單" hidden>
+                                <li class="combobox-option" role="option" id="filterStudent-opt-0">鍾一玄</li>
+                                <li class="combobox-option" role="option" id="filterStudent-opt-1">王亮鈞</li>
+                                <li class="combobox-option" role="option" id="filterStudent-opt-2">陳雋翔</li>
+                                <li class="combobox-option" role="option" id="filterStudent-opt-3">張耕宇</li>
+                                <li class="combobox-option" role="option" id="filterStudent-opt-4">李紹均</li>
+                                <li class="combobox-option" role="option" id="filterStudent-opt-5">鄭鼎彥</li>
+                                <li class="combobox-option" role="option" id="filterStudent-opt-6">盧冠豪</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="formField">
+                        <label class="formField-label" for="filterTeacher">指導老師</label>
+                        <!-- 可搜尋下拉：點選展開搜尋框＋清單，輸入即時過濾（後端：選項清單由後端帶入） -->
+                        <div class="combobox" data-combobox>
+                            <input class="inputText combobox-input" type="text" id="filterTeacher" name="teacher"
+                                   role="combobox" aria-expanded="false" aria-controls="filterTeacher-listbox"
+                                   aria-autocomplete="list" autocomplete="off" placeholder="點選以搜尋指導老師">
+                            <ul class="combobox-list" id="filterTeacher-listbox" role="listbox" aria-label="指導老師清單" hidden>
+                                <li class="combobox-option" role="option" id="filterTeacher-opt-0">趙志益</li>
+                                <li class="combobox-option" role="option" id="filterTeacher-opt-1">張永政</li>
+                                <li class="combobox-option" role="option" id="filterTeacher-opt-2">溫振甫</li>
+                                <li class="combobox-option" role="option" id="filterTeacher-opt-3">陳明仁</li>
+                                <li class="combobox-option" role="option" id="filterTeacher-opt-4">林文俊</li>
+                                <li class="combobox-option" role="option" id="filterTeacher-opt-5">楊佳霖</li>
+                                <li class="combobox-option" role="option" id="filterTeacher-opt-6">董維新</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="formField">
+                        <label class="formField-label" for="filterRank">名次</label>
+                        <select class="selectField" id="filterRank" name="rank">
+                            <option value="" selected>全部</option>
+                            <option value="1">第一名</option>
+                            <option value="2">第二名</option>
+                            <option value="3">第三名</option>
+                            <option value="4">第四名</option>
+                            <option value="5">第五名</option>
+                            <option value="6">第六名</option>
+                            <option value="7">第七名</option>
+                            <option value="8">第八名</option>
+                            <option value="merit">佳作</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filterCard-actions">
+                    <button type="submit" class="btnRounded btn-indigo">
+                        <i class="bi bi-search" aria-hidden="true"></i>查詢
+                    </button>
+                    <!-- 後端：依目前查詢條件匯出資料 -->
+                    <a class="btnRounded btn-outline" href="#" download>
+                        <i class="bi bi-file-earmark-spreadsheet" aria-hidden="true"></i>資料匯出
+                    </a>
+                </div>
+            </form>
+
+            <!-- ===== 得獎名單下載 ===== -->
+            <section class="mb-4" aria-label="得獎名單下載">
+                <div class="flex-row-center flex-wrap gap-3">
+                    <span class="formField-label mb-0">得獎名單下載</span>
+                    <!-- 後端：各科得獎名單由後端產生文件 -->
+                    <a class="btnRounded btn-outlineWarning btn-compact" href="#" download><i class="bi bi-download" aria-hidden="true"></i>生物</a>
+                    <a class="btnRounded btn-outlineWarning btn-compact" href="#" download><i class="bi bi-download" aria-hidden="true"></i>物理</a>
+                    <a class="btnRounded btn-outlineWarning btn-compact" href="#" download><i class="bi bi-download" aria-hidden="true"></i>數學</a>
+                    <a class="btnRounded btn-outlineSuccess btn-compact" href="#" download><i class="bi bi-download" aria-hidden="true"></i>化學</a>
+                    <a class="btnRounded btn-outlineSuccess btn-compact" href="#" download><i class="bi bi-download" aria-hidden="true"></i>資訊</a>
+                    <a class="btnRounded btn-outlineSuccess btn-compact" href="#" download><i class="bi bi-download" aria-hidden="true"></i>地球科學</a>
+                </div>
+            </section>
+
+            <!-- ===== 名次登打表 ===== -->
+            <form id="scoreForm">
+                <div class="data-table-wrap">
+                    <table class="table data-table data-table--wide scoreTable">
+                        <caption class="sr-only">複賽學生成績名次登打，可逐列選擇第一名至第八名或佳作</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">科別</th>
+                                <th scope="col">學校全銜</th>
+                                <th scope="col">學生姓名</th>
+                                <th scope="col">身分證</th>
+                                <th scope="col">年級</th>
+                                <th scope="col">指導老師</th>
+                                <th scope="col" class="cell-sticky-second">名次</th>
+                                <th scope="col" class="cell-sticky">儲存狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="科別"><span class="cell-value">數學</span></td>
+                                <td data-label="學校全銜"><span class="cell-value">新北市立中和高級中學</span></td>
+                                <td data-label="學生姓名"><span class="cell-value">鍾一玄</span></td>
+                                <td data-label="身分證"><span class="cell-value">A123456789</span></td>
+                                <td data-label="年級"><span class="cell-value">一年級</span></td>
+                                <td data-label="指導老師"><span class="cell-value">趙志益</span></td>
+                                <td data-label="名次" class="cell-sticky-second"><span class="cell-value">
+                                    <label class="sr-only" for="rank1">鍾一玄 名次</label>
+                                    <select class="selectField" id="rank1" name="rank1">
+                                        <option value="" selected>未評</option>
+                                        <option value="1">第一名</option>
+                                        <option value="2">第二名</option>
+                                        <option value="3">第三名</option>
+                                        <option value="4">第四名</option>
+                                        <option value="5">第五名</option>
+                                        <option value="6">第六名</option>
+                                        <option value="7">第七名</option>
+                                        <option value="8">第八名</option>
+                                        <option value="merit">佳作</option>
+                                    </select>
+                                </span></td>
+                                <td data-label="儲存狀態" class="cell-sticky"><span class="cell-value scoreSaveCell">
+                                    <span class="statusTag statusTag--muted js-saveStatus" role="status" aria-live="polite">未評</span>
+                                    <button type="button" class="btnRounded btn-outline js-saveRow" hidden>儲存</button>
+                                </span></td>
+                            </tr>
+                            <tr>
+                                <td data-label="科別"><span class="cell-value">數學</span></td>
+                                <td data-label="學校全銜"><span class="cell-value">南山學校財團法人新北市南山高級中學</span></td>
+                                <td data-label="學生姓名"><span class="cell-value">王亮鈞</span></td>
+                                <td data-label="身分證"><span class="cell-value">A123456789</span></td>
+                                <td data-label="年級"><span class="cell-value">二年級</span></td>
+                                <td data-label="指導老師"><span class="cell-value">張永政</span></td>
+                                <td data-label="名次" class="cell-sticky-second"><span class="cell-value">
+                                    <label class="sr-only" for="rank2">王亮鈞 名次</label>
+                                    <select class="selectField" id="rank2" name="rank2">
+                                        <option value="" selected>未評</option>
+                                        <option value="1">第一名</option>
+                                        <option value="2">第二名</option>
+                                        <option value="3">第三名</option>
+                                        <option value="4">第四名</option>
+                                        <option value="5">第五名</option>
+                                        <option value="6">第六名</option>
+                                        <option value="7">第七名</option>
+                                        <option value="8">第八名</option>
+                                        <option value="merit">佳作</option>
+                                    </select>
+                                </span></td>
+                                <td data-label="儲存狀態" class="cell-sticky"><span class="cell-value scoreSaveCell">
+                                    <span class="statusTag statusTag--muted js-saveStatus" role="status" aria-live="polite">未評</span>
+                                    <button type="button" class="btnRounded btn-outline js-saveRow" hidden>儲存</button>
+                                </span></td>
+                            </tr>
+                            <tr>
+                                <td data-label="科別"><span class="cell-value">數學</span></td>
+                                <td data-label="學校全銜"><span class="cell-value">私立康橋學校財團法人新北市康橋高級中學</span></td>
+                                <td data-label="學生姓名"><span class="cell-value">陳雋翔</span></td>
+                                <td data-label="身分證"><span class="cell-value">A123456789</span></td>
+                                <td data-label="年級"><span class="cell-value">一年級</span></td>
+                                <td data-label="指導老師"><span class="cell-value">溫振甫</span></td>
+                                <td data-label="名次" class="cell-sticky-second"><span class="cell-value">
+                                    <label class="sr-only" for="rank3">陳雋翔 名次</label>
+                                    <select class="selectField" id="rank3" name="rank3">
+                                        <option value="" selected>未評</option>
+                                        <option value="1">第一名</option>
+                                        <option value="2">第二名</option>
+                                        <option value="3">第三名</option>
+                                        <option value="4">第四名</option>
+                                        <option value="5">第五名</option>
+                                        <option value="6">第六名</option>
+                                        <option value="7">第七名</option>
+                                        <option value="8">第八名</option>
+                                        <option value="merit">佳作</option>
+                                    </select>
+                                </span></td>
+                                <td data-label="儲存狀態" class="cell-sticky"><span class="cell-value scoreSaveCell">
+                                    <span class="statusTag statusTag--muted js-saveStatus" role="status" aria-live="polite">未評</span>
+                                    <button type="button" class="btnRounded btn-outline js-saveRow" hidden>儲存</button>
+                                </span></td>
+                            </tr>
+                            <tr>
+                                <td data-label="科別"><span class="cell-value">數學</span></td>
+                                <td data-label="學校全銜"><span class="cell-value">新北市私立裕德雙語高級中學</span></td>
+                                <td data-label="學生姓名"><span class="cell-value">張耕宇</span></td>
+                                <td data-label="身分證"><span class="cell-value">A123456789</span></td>
+                                <td data-label="年級"><span class="cell-value">二年級</span></td>
+                                <td data-label="指導老師"><span class="cell-value">陳明仁</span></td>
+                                <td data-label="名次" class="cell-sticky-second"><span class="cell-value">
+                                    <label class="sr-only" for="rank4">張耕宇 名次</label>
+                                    <select class="selectField" id="rank4" name="rank4">
+                                        <option value="" selected>未評</option>
+                                        <option value="1">第一名</option>
+                                        <option value="2">第二名</option>
+                                        <option value="3">第三名</option>
+                                        <option value="4">第四名</option>
+                                        <option value="5">第五名</option>
+                                        <option value="6">第六名</option>
+                                        <option value="7">第七名</option>
+                                        <option value="8">第八名</option>
+                                        <option value="merit">佳作</option>
+                                    </select>
+                                </span></td>
+                                <td data-label="儲存狀態" class="cell-sticky"><span class="cell-value scoreSaveCell">
+                                    <span class="statusTag statusTag--muted js-saveStatus" role="status" aria-live="polite">未評</span>
+                                    <button type="button" class="btnRounded btn-outline js-saveRow" hidden>儲存</button>
+                                </span></td>
+                            </tr>
+                            <tr>
+                                <td data-label="科別"><span class="cell-value">數學</span></td>
+                                <td data-label="學校全銜"><span class="cell-value">華東臺商子女學校</span></td>
+                                <td data-label="學生姓名"><span class="cell-value">李紹均</span></td>
+                                <td data-label="身分證"><span class="cell-value">A123456789</span></td>
+                                <td data-label="年級"><span class="cell-value">一年級</span></td>
+                                <td data-label="指導老師"><span class="cell-value">林文俊</span></td>
+                                <td data-label="名次" class="cell-sticky-second"><span class="cell-value">
+                                    <label class="sr-only" for="rank5">李紹均 名次</label>
+                                    <select class="selectField" id="rank5" name="rank5">
+                                        <option value="" selected>未評</option>
+                                        <option value="1">第一名</option>
+                                        <option value="2">第二名</option>
+                                        <option value="3">第三名</option>
+                                        <option value="4">第四名</option>
+                                        <option value="5">第五名</option>
+                                        <option value="6">第六名</option>
+                                        <option value="7">第七名</option>
+                                        <option value="8">第八名</option>
+                                        <option value="merit">佳作</option>
+                                    </select>
+                                </span></td>
+                                <td data-label="儲存狀態" class="cell-sticky"><span class="cell-value scoreSaveCell">
+                                    <span class="statusTag statusTag--muted js-saveStatus" role="status" aria-live="polite">未評</span>
+                                    <button type="button" class="btnRounded btn-outline js-saveRow" hidden>儲存</button>
+                                </span></td>
+                            </tr>
+                            <tr>
+                                <td data-label="科別"><span class="cell-value">數學</span></td>
+                                <td data-label="學校全銜"><span class="cell-value">新北市立中和高級中學</span></td>
+                                <td data-label="學生姓名"><span class="cell-value">鄭鼎彥</span></td>
+                                <td data-label="身分證"><span class="cell-value">A123456789</span></td>
+                                <td data-label="年級"><span class="cell-value">二年級</span></td>
+                                <td data-label="指導老師"><span class="cell-value">楊佳霖</span></td>
+                                <td data-label="名次" class="cell-sticky-second"><span class="cell-value">
+                                    <label class="sr-only" for="rank6">鄭鼎彥 名次</label>
+                                    <select class="selectField" id="rank6" name="rank6">
+                                        <option value="" selected>未評</option>
+                                        <option value="1">第一名</option>
+                                        <option value="2">第二名</option>
+                                        <option value="3">第三名</option>
+                                        <option value="4">第四名</option>
+                                        <option value="5">第五名</option>
+                                        <option value="6">第六名</option>
+                                        <option value="7">第七名</option>
+                                        <option value="8">第八名</option>
+                                        <option value="merit">佳作</option>
+                                    </select>
+                                </span></td>
+                                <td data-label="儲存狀態" class="cell-sticky"><span class="cell-value scoreSaveCell">
+                                    <span class="statusTag statusTag--muted js-saveStatus" role="status" aria-live="polite">未評</span>
+                                    <button type="button" class="btnRounded btn-outline js-saveRow" hidden>儲存</button>
+                                </span></td>
+                            </tr>
+                            <tr>
+                                <td data-label="科別"><span class="cell-value">數學</span></td>
+                                <td data-label="學校全銜"><span class="cell-value">新北市立海山高級中學</span></td>
+                                <td data-label="學生姓名"><span class="cell-value">盧冠豪</span></td>
+                                <td data-label="身分證"><span class="cell-value">A123456789</span></td>
+                                <td data-label="年級"><span class="cell-value">一年級</span></td>
+                                <td data-label="指導老師"><span class="cell-value">董維新</span></td>
+                                <td data-label="名次" class="cell-sticky-second"><span class="cell-value">
+                                    <label class="sr-only" for="rank7">盧冠豪 名次</label>
+                                    <select class="selectField" id="rank7" name="rank7">
+                                        <option value="" selected>未評</option>
+                                        <option value="1">第一名</option>
+                                        <option value="2">第二名</option>
+                                        <option value="3">第三名</option>
+                                        <option value="4">第四名</option>
+                                        <option value="5">第五名</option>
+                                        <option value="6">第六名</option>
+                                        <option value="7">第七名</option>
+                                        <option value="8">第八名</option>
+                                        <option value="merit">佳作</option>
+                                    </select>
+                                </span></td>
+                                <td data-label="儲存狀態" class="cell-sticky"><span class="cell-value scoreSaveCell">
+                                    <span class="statusTag statusTag--muted js-saveStatus" role="status" aria-live="polite">未評</span>
+                                    <button type="button" class="btnRounded btn-outline js-saveRow" hidden>儲存</button>
+                                </span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+
+            <!-- ===== 分頁 ===== -->
+            <nav aria-label="成績資料分頁">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="上一頁"><span aria-hidden="true">&laquo;</span></a>
+                    </li>
+                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="下一頁"><span aria-hidden="true">&raquo;</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+    </main>
+
+    <!-- 回到頂部 -->
+    <button type="button" class="scroll-top-btn" aria-label="回到頁面頂端">
+        <i class="bi bi-arrow-up" aria-hidden="true"></i>
+        <span class="scroll-top-text">置頂</span>
+    </button>
+
+    <div id="footer" data-layout="layout/footer.html"></div>
+
+    <!-- 全站腳本（本地端，禁止 CDN）：順序不可調換 -->
+    <script src="js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/combobox.js"></script>
+    <script src="js/scoreManage.js"></script>
+</body>
+</html>

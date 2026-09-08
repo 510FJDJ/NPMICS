@@ -1,0 +1,53 @@
+// ============================================================
+// 可搜尋下拉（combobox + listbox）
+// 欄位沿用 .inputText（.combobox-input 額外承載 combobox 行為），
+// 清單為絕對定位浮層，疊在其後欄位之上（由 js/combobox.js 控制顯隱）
+// ============================================================
+
+.combobox {
+    position: relative;
+}
+
+// 清單浮層：白底細框 8 圓角卡片，最多 240px 高後內部捲動
+.combobox-list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 20;
+    max-height: 240px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 4px;
+    list-style: none;
+    border: 1px solid $border-100;
+    border-radius: 8px;
+    background-color: $white;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, .12);
+}
+
+.combobox-option {
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: $text-100;
+    line-height: 1.4;
+    cursor: pointer;
+
+    // 滑鼠停留
+    &:hover {
+        background-color: $primary-10;
+    }
+
+    // 鍵盤高亮（aria-activedescendant）：實心主色底白字，對比約 9.79:1
+    &.is-active {
+        background-color: $primary-100;
+        color: $white;
+    }
+}
+
+// 查無結果提示（非可選項）
+.combobox-empty {
+    padding: 8px 12px;
+    color: $gray-100; // 4.8:1
+    font-size: .9375rem;
+}

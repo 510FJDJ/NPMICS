@@ -1,0 +1,45 @@
+// ============================================================
+// 分頁（Bootstrap .pagination 重上靛藍 token）
+// 局端清單頁（報名查看、成績處理、學校管理）共用
+// 每顆按鈕獨立 8 圓角方塊，選中頁為靛藍實心
+// ============================================================
+
+.pagination {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 32px 0 0;
+}
+
+.page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 10px;
+    border: 1px solid $border-100;
+    border-radius: 8px; // 取消 Bootstrap 首尾相連的群組圓角，改為各自獨立方塊
+    color: $primary-100;
+    font-weight: 500;
+    transition: background-color $dur-ui $ease-brand, color $dur-ui $ease-brand, border-color $dur-ui $ease-brand;
+
+    &:hover {
+        background-color: $primary-10;
+        border-color: $primary-100;
+        color: $primary-100;
+    }
+}
+
+.page-item.active .page-link {
+    background-color: $primary-100;
+    border-color: $primary-100;
+    color: $white;
+}
+
+.page-item.disabled .page-link {
+    background-color: $bg-100;
+    border-color: $border-100;
+    color: $gray-100;
+    pointer-events: none;
+}

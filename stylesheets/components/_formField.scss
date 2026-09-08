@@ -61,6 +61,15 @@
     }
 }
 
+// 多行輸入（備註等）：沿用 .inputText 外觀，改為自動高度、可垂直拉伸
+textarea.inputText {
+    height: auto;
+    min-height: 96px;
+    padding: 12px 16px;
+    line-height: 1.6;
+    resize: vertical;
+}
+
 // 下拉選單：視覺對齊 .inputText，右側疊自訂箭頭圖示取代瀏覽器原生樣式
 .selectField {
     width: 100%;

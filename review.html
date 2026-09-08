@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <script>
+        // 無障礙：清掉網址列殘留的錨點 hash，避免重新整理時瀏覽器原生錨點跳轉
+        if (window.location.hash) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo/edu_logo.png" type="image/png">
+    <title>複賽報名查看 | 115學年度新北區數理暨資訊學科能力競賽複賽報名系統</title>
+    <meta name="description" content="115學年度新北區數理暨資訊學科能力競賽複賽報名查看：依年度、縣市、學校、科別查詢各校報名資料與報名表上傳狀態，可下載已簽核報名表與匯出填報資料。">
+
+    <link rel="stylesheet" href="css/all.css">
+</head>
+<body>
+    <!-- 無障礙：跳過導覽列，進入主要內容區 -->
+    <a href="#goCenter" class="sr-only focusable" accesskey="C" title="跳過導覽列，進入主要內容區">主要內容區</a>
+    <!-- 無障礙：跳至上方導覽列（僅供 Alt+U 快速鍵定位）-->
+    <a href="#headerNav" class="sr-only focusable" accesskey="U" title="跳至上方導覽列" tabindex="-1">上方導覽列</a>
+
+    <div id="header" data-layout="layout/header_Bureau.html"></div>
+
+    <main id="goCenter" tabindex="-1">
+        <!-- 內頁橫幅：平面幾何科學風插畫背景（裝飾性，CSS background） -->
+        <div class="pageBanner wizardPageHeader pageBanner--overlap">
+            <h1>複賽報名查看</h1>
+        </div>
+
+        <section class="container py-6 contentOverlap">
+            <!-- ===== 查詢條件 ===== -->
+            <form class="filterCard" id="reviewFilter" action="/review" method="GET">
+                <h2 class="visually-hidden">查詢條件</h2>
+                <div class="filterCard-grid">
+                    <div class="formField">
+                        <label class="formField-label" for="filterYear">年度</label>
+                        <!-- 後端：預設帶入當年度 -->
+                        <select class="selectField" id="filterYear" name="year">
+                            <option value="115" selected>115 學年度</option>
+                            <option value="114">114 學年度</option>
+                            <option value="113">113 學年度</option>
+                        </select>
+                    </div>
+                    <div class="formField">
+                        <label class="formField-label" for="filterCounty">縣市</label>
+                        <select class="selectField" id="filterCounty" name="county">
+                            <option value="" selected>全部</option>
+                            <option value="ntpc">新北市</option>
+                            <option value="kl">基隆市</option>
+                            <option value="km">金門縣</option>
+                        </select>
+                    </div>
+                    <div class="formField">
+                        <label class="formField-label" for="filterSchool">學校</label>
+                        <select class="selectField" id="filterSchool" name="school">
+                            <option value="" selected>全部</option>
+                            <option value="tj">新北市私立淡江高級中學</option>
+                            <option value="zs">基隆市立中山高級中學</option>
+                        </select>
+                    </div>
+                    <div class="formField">
+                        <label class="formField-label" for="filterSubject">科別</label>
+                        <select class="selectField" id="filterSubject" name="subject">
+                            <option value="" selected>全部</option>
+                            <option value="bio">生物科</option>
+                            <option value="phy">物理科</option>
+                            <option value="math">數學科</option>
+                            <option value="che">化學科</option>
+                            <option value="info">資訊科</option>
+                            <option value="es">地球科學科</option>
+                        </select>
+                    </div>
+                    <div class="formField">
+                        <label class="formField-label" for="filterPageSize">每頁筆數</label>
+                        <select class="selectField" id="filterPageSize" name="pageSize">
+                            <option value="20" selected>20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filterCard-actions">
+                    <button type="submit" class="btnRounded btn-indigo">
+                        <i class="bi bi-search" aria-hidden="true"></i>查詢
+                    </button>
+                </div>
+            </form>
+
+            <!-- ===== 批次動作＋筆數 ===== -->
+            <div class="data-tableToolbar">
+                <div class="flex-row-center flex-wrap gap-3">
+                    <!-- 後端：批次下載／匯出作用於目前查詢結果 -->
+                    <a class="btnRounded btn-outline btn-compact" href="#" download>
+                        <i class="bi bi-download" aria-hidden="true"></i>下載學校已簽核報名表
+                    </a>
+                    <a class="btnRounded btn-outline btn-compact" href="#" download>
+                        <i class="bi bi-file-earmark-spreadsheet" aria-hidden="true"></i>匯出學校已填報資料
+                    </a>
+                </div>
+                <span class="data-tableToolbar-count">筆數：<strong>4</strong></span>
+            </div>
+
+            <!-- ===== 報名資料表 ===== -->
+            <div class="data-table-wrap">
+                <table class="table data-table data-table--wide">
+                    <caption class="sr-only">各校複賽報名資料，含報名表上傳狀態與報名學生查看</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">縣市</th>
+                            <th scope="col">學校</th>
+                            <th scope="col">科別</th>
+                            <th scope="col">貴校是否獲核定<br>數理資優班</th>
+                            <th scope="col">普通科班級數</th>
+                            <th scope="col">承辦人姓名</th>
+                            <th scope="col">承辦人電話</th>
+                            <th scope="col">承辦人電子郵件</th>
+                            <th scope="col">報名表</th>
+                            <th scope="col" class="cell-sticky">報名學生</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="縣市"><span class="cell-value">新北市</span></td>
+                            <td data-label="學校"><span class="cell-value">新北市私立淡江高級中學</span></td>
+                            <td data-label="科別"><span class="cell-value">生物科</span></td>
+                            <td data-label="貴校是否獲核定數理資優班"><span class="cell-value">無</span></td>
+                            <td data-label="普通科班級數"><span class="cell-value">40</span></td>
+                            <td data-label="承辦人姓名"><span class="cell-value">李珮甄</span></td>
+                            <td data-label="承辦人電話"><span class="cell-value">02-22222222</span></td>
+                            <td data-label="承辦人電子郵件"><span class="cell-value">jenny600412@gmail.com</span></td>
+                            <td data-label="報名表"><span class="cell-value">
+                                <span class="statusTag statusTag--success">
+                                    <i class="bi bi-check-circle-fill" aria-hidden="true"></i>已上傳
+                                </span>
+                            </span></td>
+                            <td data-label="報名學生" class="cell-sticky"><span class="cell-value">
+                                <button type="button" class="btnRounded btn-outline btn-compact js-viewStudents"
+                                    data-school="新北市私立淡江高級中學" data-subject="生物科">查看</button>
+                            </span></td>
+                        </tr>
+                        <tr>
+                            <td data-label="縣市"><span class="cell-value">新北市</span></td>
+                            <td data-label="學校"><span class="cell-value">新北市私立淡江高級中學</span></td>
+                            <td data-label="科別"><span class="cell-value">化學科</span></td>
+                            <td data-label="貴校是否獲核定數理資優班"><span class="cell-value">無</span></td>
+                            <td data-label="普通科班級數"><span class="cell-value">40</span></td>
+                            <td data-label="承辦人姓名"><span class="cell-value">李珮甄</span></td>
+                            <td data-label="承辦人電話"><span class="cell-value">02-22222222</span></td>
+                            <td data-label="承辦人電子郵件"><span class="cell-value">jenny600412@gmail.com</span></td>
+                            <td data-label="報名表"><span class="cell-value">
+                                <span class="statusTag statusTag--warn">
+                                    <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>尚未上傳
+                                </span>
+                            </span></td>
+                            <td data-label="報名學生" class="cell-sticky"><span class="cell-value">
+                                <button type="button" class="btnRounded btn-outline btn-compact js-viewStudents"
+                                    data-school="新北市私立淡江高級中學" data-subject="化學科">查看</button>
+                            </span></td>
+                        </tr>
+                        <tr>
+                            <td data-label="縣市"><span class="cell-value">基隆市</span></td>
+                            <td data-label="學校"><span class="cell-value">基隆市立中山高級中學</span></td>
+                            <td data-label="科別"><span class="cell-value">生物科</span></td>
+                            <td data-label="貴校是否獲核定數理資優班"><span class="cell-value">無</span></td>
+                            <td data-label="普通科班級數"><span class="cell-value">45</span></td>
+                            <td data-label="承辦人姓名"><span class="cell-value">李珮甄</span></td>
+                            <td data-label="承辦人電話"><span class="cell-value">02-22222222</span></td>
+                            <td data-label="承辦人電子郵件"><span class="cell-value">jenny600412@gmail.com</span></td>
+                            <td data-label="報名表"><span class="cell-value">
+                                <span class="statusTag statusTag--success">
+                                    <i class="bi bi-check-circle-fill" aria-hidden="true"></i>已上傳
+                                </span>
+                            </span></td>
+                            <td data-label="報名學生" class="cell-sticky"><span class="cell-value">
+                                <button type="button" class="btnRounded btn-outline btn-compact js-viewStudents"
+                                    data-school="基隆市立中山高級中學" data-subject="生物科">查看</button>
+                            </span></td>
+                        </tr>
+                        <tr>
+                            <td data-label="縣市"><span class="cell-value">基隆市</span></td>
+                            <td data-label="學校"><span class="cell-value">基隆市立中山高級中學</span></td>
+                            <td data-label="科別"><span class="cell-value">資訊科</span></td>
+                            <td data-label="貴校是否獲核定數理資優班"><span class="cell-value">無</span></td>
+                            <td data-label="普通科班級數"><span class="cell-value">45</span></td>
+                            <td data-label="承辦人姓名"><span class="cell-value">李珮甄</span></td>
+                            <td data-label="承辦人電話"><span class="cell-value">02-22222222</span></td>
+                            <td data-label="承辦人電子郵件"><span class="cell-value">jenny600412@gmail.com</span></td>
+                            <td data-label="報名表"><span class="cell-value">
+                                <span class="statusTag statusTag--warn">
+                                    <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>尚未上傳
+                                </span>
+                            </span></td>
+                            <td data-label="報名學生" class="cell-sticky"><span class="cell-value">
+                                <button type="button" class="btnRounded btn-outline btn-compact js-viewStudents"
+                                    data-school="基隆市立中山高級中學" data-subject="資訊科">查看</button>
+                            </span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ===== 分頁 ===== -->
+            <nav aria-label="報名資料分頁">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="上一頁"><span aria-hidden="true">&laquo;</span></a>
+                    </li>
+                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="下一頁"><span aria-hidden="true">&raquo;</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+    </main>
+
+    <!-- 報名學生查看 Modal：內容由 js/review.js 依所選學校／科別帶入（修掉舊版每列重複 id 的無效寫法） -->
+    <div class="modal fade submitModal" id="studentListModal" tabindex="-1" aria-labelledby="studentListTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="submitModal-title" id="studentListTitle">報名學生</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="studentListBody"></div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btnRounded btn-ghost" data-bs-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 回到頂部 -->
+    <button type="button" class="scroll-top-btn" aria-label="回到頁面頂端">
+        <i class="bi bi-arrow-up" aria-hidden="true"></i>
+        <span class="scroll-top-text">置頂</span>
+    </button>
+
+    <div id="footer" data-layout="layout/footer.html"></div>
+
+    <!-- 全站腳本（本地端，禁止 CDN）：順序不可調換 -->
+    <script src="js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/review.js"></script>
+</body>
+</html>

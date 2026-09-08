@@ -2,6 +2,6 @@ node_modules/
 .claude/
 .DS_Store
 Thumbs.db
-.CLAUDE.md
-.ACCESSIBILITY.md
-.design.md
+CLAUDE.md
+ACCESSIBILITY.md
+design.md

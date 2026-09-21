@@ -66,6 +66,7 @@
 // 警語條列：送出前不可修改等預告事項
 .submitModal-noticeList {
     display: flex;
+    flex-direction: column;
     gap: 8px;
     margin: 12px 0 0;
     padding: 12px 14px;

@@ -1,8 +1,8 @@
 // ============================================================
 // 填寫複賽報名頁專屬腳本（Vanilla JS）
-// 職責：四步驟完成度判斷與後續步驟填寫鎖定（可瀏覽不可填寫）、
+// 職責：三步驟完成度判斷與後續步驟填寫鎖定（可瀏覽不可填寫）、
 //       科別是否報名切換、學生資料整列新增／刪除／重新編號、
-//       送出並產生報名表確認、下載標記、上傳與完成報名、儲存提示
+//       送出並產生報名表確認、下載與上傳簽核後報名表、完成報名、儲存提示
 // 後端：送出／儲存／檔案上傳實際寫入由後端接手，此處為前端流程示意
 // ============================================================
 (function () {
@@ -11,19 +11,20 @@
     var form = document.getElementById('semiFinalsForm');
     if (!form || !window.npmicsWizard) { return; }
 
-    var STEPS = ['school', 'students', 'download', 'upload'];
+    var STEPS = ['school', 'students', 'download'];
     var STUDENT_FIELD_ORDER = ['Name', 'Gender', 'Birth', 'IdNo', 'Meal', 'Grade', 'Phone', 'Email', 'TeacherName', 'TeacherPhone', 'TeacherEmail'];
 
     // 流程狀態（後端：改由報名資料判斷）
     var state = {
         submitted: false,   // 已按「送出並產生報名表」
-        downloaded: {},     // 已點擊的下載連結
-        completed: false    // 已上傳簽核後報名表完成報名
+        completed: false,   // 已上傳簽核後報名表完成報名
+        uploaded: { signedFormGroupA: false, signedFormGroupB: false } // 各上傳欄位是否已按「儲存」
     };
 
     var btnPrev = document.getElementById('btnPrev');
     var btnNext = document.getElementById('btnNext');
     var btnSave = document.getElementById('btnSave');
+    var saveStatus = document.getElementById('saveStatus');
     var nextStepHint = document.getElementById('nextStepHint');
     var nextStepHintText = document.getElementById('nextStepHintText');
     var saveStatusText = document.getElementById('saveStatusText');
@@ -86,14 +87,10 @@
     }
 
     function isDownloadDone() {
-        return state.submitted && Object.keys(state.downloaded).length >= 2;
-    }
-
-    function isUploadDone() {
         return state.completed;
     }
 
-    // ---- 步驟狀態供步驟列渲染（PM 需求：1、2、4 步驟顯示完成狀態）----
+    // ---- 步驟狀態供步驟列渲染（PM 需求：1、2、3 步驟顯示完成狀態）----
     function getStepState(key) {
         switch (key) {
             case 'school':
@@ -105,13 +102,13 @@
                     ? { status: 'done', sub: '已完成' }
                     : { status: 'pending', sub: '尚未填寫' };
             case 'download':
-                return isDownloadDone()
-                    ? { status: 'done', sub: '已完成' }
-                    : { status: 'notstarted', sub: state.submitted ? '可下載' : '未開始' };
-            case 'upload':
-                return isUploadDone()
-                    ? { status: 'done', sub: '已完成' }
-                    : { status: 'pending', sub: '尚未上傳' };
+                if (isDownloadDone()) { return { status: 'done', sub: '已完成' }; }
+                if (!state.submitted) { return { status: 'notstarted', sub: '未開始' }; }
+                var downloadSub = (state.uploaded.signedFormGroupA && state.uploaded.signedFormGroupB)
+                    ? '已上傳未確認'
+                    : '尚未上傳';
+                // 此步驟以上傳檔案為主，非填寫表單，即使目前為進行中步驟也顯示實際上傳狀態
+                return { status: 'pending', sub: downloadSub, activeSub: downloadSub };
             default:
                 return { status: 'notstarted', sub: '未開始' };
         }
@@ -128,8 +125,6 @@
                 return !state.submitted && isSchoolDone(); // 步驟一未完成前不可填寫
             case 'download':
                 return state.submitted;
-            case 'upload':
-                return state.submitted;
             default:
                 return false;
         }
@@ -139,10 +134,11 @@
         STEPS.forEach(function (key) {
             var panel = getPanel(key);
             var locked = !canFill(key);
-            panel.querySelectorAll('input, select, textarea, .js-addStudent, .js-removeStudent').forEach(function (control) {
+            panel.querySelectorAll('input, select, textarea, .js-addStudent, .js-removeStudent, .js-editStudent, .js-saveStudent').forEach(function (control) {
                 // 科別容器隱藏中的欄位維持 disabled，交由 subject 切換邏輯管理
                 if (control.closest('.js-subjectStudents') && control.closest('.js-subjectStudents').hidden) { return; }
-                control.disabled = locked;
+                // 已按「儲存」鎖定的學生列欄位：即使本步驟目前可填寫，仍維持鎖定，須按「編輯」才能再次修改
+                control.disabled = locked || isSavedRowField(control);
             });
             // 下載連結：未送出前不可點
             if (key === 'download') {
@@ -170,6 +166,9 @@
         btnPrev.setAttribute('aria-disabled', index <= 0 ? 'true' : 'false');
         btnSave.hidden = state.submitted; // 送出後資料鎖定，不再提供儲存
 
+        // 步驟三：上傳欄位改由各自的「儲存」按鈕負責保存，底部通用儲存提示與按鈕不再重複顯示
+        saveStatus.hidden = state.submitted;
+
         var nextLabel = '下一步';
         var message = '';
 
@@ -184,7 +183,7 @@
         } else if (key === 'school') {
             var invalidSchool = firstInvalidControl(getPanel('school'));
             if (!state.submitted && invalidSchool) { message = invalidMessage(invalidSchool); }
-        } else if (key === 'upload') {
+        } else if (key === 'download') {
             nextLabel = '完成報名';
             if (state.completed) {
                 nextLabel = '已完成報名';
@@ -192,17 +191,15 @@
             } else if (!state.submitted) {
                 message = '請先完成前面步驟並送出產生報名表';
             } else {
-                var invalidUpload = firstInvalidControl(getPanel('upload'));
+                var invalidUpload = firstInvalidControl(getPanel('download'));
                 if (invalidUpload) {
                     message = invalidUpload.type === 'checkbox' ? '請先勾選最後確認事項' : invalidMessage(invalidUpload);
                 }
             }
-        } else if (key === 'download') {
-            if (!state.submitted) { message = '請先完成前面步驟並送出產生報名表'; }
         }
 
         btnNext.textContent = nextLabel;
-        var disabled = !!message || (key === 'upload' && state.completed);
+        var disabled = !!message || (key === 'download' && state.completed);
         btnNext.setAttribute('aria-disabled', disabled ? 'true' : 'false');
         nextStepHint.hidden = !message;
         nextStepHintText.textContent = message;
@@ -212,6 +209,13 @@
         window.npmicsWizard.refresh();
         renderLocks();
         renderActionBar();
+    }
+
+    // ---- 學生資料列：已儲存鎖定判斷 ----
+    function isSavedRowField(control) {
+        if (!control.matches('input, select, textarea')) { return false; }
+        var row = control.closest('tr');
+        return !!(row && row.dataset.saved === 'true');
     }
 
     // ---- 學生資料列：樣板複製、id／label 代入、重新編號 ----
@@ -232,18 +236,91 @@
                     label.textContent = subjectName + ' 學生' + n + ' ' + label.getAttribute('data-field-label');
                 }
             });
-            var removeBtn = row.querySelector('.js-removeStudent');
-            removeBtn.setAttribute('aria-label', '刪除' + subjectName + '學生' + n);
+            row.querySelectorAll('.js-removeStudent').forEach(function (removeBtn) {
+                removeBtn.setAttribute('aria-label', '刪除' + subjectName + '學生' + n);
+            });
+            var editBtn = row.querySelector('.js-editStudent');
+            editBtn.setAttribute('aria-label', '編輯' + subjectName + '學生' + n);
         });
         var count = section.querySelector('.js-studentCount');
         if (count) { count.textContent = '已填寫 ' + rows.length + ' 位學生'; }
     }
 
+    // ---- 每科選派人數上限：資優班每科 6 人；普通科依班級數 51 班以上 4 人、50 班以下 2 人 ----
+    function getStudentQuota() {
+        var gifted = document.getElementById('schoolGifted');
+        if (gifted && gifted.value === 'yes') { return 6; }
+        var classRegular = document.getElementById('schoolClassRegular');
+        var classCount = classRegular ? parseInt(classRegular.value, 10) : 0;
+        return classCount >= 51 ? 4 : 2;
+    }
+
+    function showQuotaLimitModal(section, quota) {
+        var subjectName = section.getAttribute('data-subject-name');
+        document.getElementById('quotaLimitDesc').textContent =
+            '依複賽名額規定，貴校' + subjectName + '最多可選派 ' + quota + ' 人參加，已達上限，無法再新增學生。';
+        var modal = new bootstrap.Modal(document.getElementById('quotaLimitModal'));
+        modal.show();
+    }
+
     function addStudentRow(section) {
         var tbody = section.querySelector('.js-studentRows');
+        var quota = getStudentQuota();
+        if (tbody.querySelectorAll('tr').length >= quota) {
+            showQuotaLimitModal(section, quota);
+            return;
+        }
         tbody.appendChild(rowTemplate.content.cloneNode(true));
         renumberRows(section);
         refreshAll();
+    }
+
+    // ---- 學生列欄位：取得列內輸入元件、檢核第一個未通過驗證的欄位 ----
+    function rowFields(row) {
+        return row.querySelectorAll('[data-tpl="input"]');
+    }
+
+    function firstInvalidInRow(row) {
+        var fields = rowFields(row);
+        for (var i = 0; i < fields.length; i++) {
+            if (!fields[i].checkValidity()) { return fields[i]; }
+        }
+        return null;
+    }
+
+    // ---- 學生列「儲存」：驗證通過後鎖定欄位，改顯示「編輯」「刪除」----
+    function saveStudentRow(row) {
+        var invalid = firstInvalidInRow(row);
+        if (invalid) {
+            invalid.reportValidity();
+            invalid.focus();
+            return;
+        }
+        row.dataset.saved = 'true';
+        rowFields(row).forEach(function (field) {
+            if (field.tagName === 'SELECT') {
+                field.disabled = true;
+            } else {
+                field.readOnly = true;
+            }
+        });
+        row.querySelector('.js-unsavedActions').hidden = true;
+        row.querySelector('.js-savedActions').hidden = false;
+        refreshAll();
+    }
+
+    // ---- 學生列「編輯」：解除鎖定，改回只顯示「儲存」----
+    function editStudentRow(row) {
+        delete row.dataset.saved;
+        rowFields(row).forEach(function (field) {
+            field.disabled = false;
+            field.readOnly = false;
+        });
+        row.querySelector('.js-savedActions').hidden = true;
+        row.querySelector('.js-unsavedActions').hidden = false;
+        refreshAll();
+        var firstField = rowFields(row)[0];
+        if (firstField) { firstField.focus(); }
     }
 
     // ---- 科別是否報名切換 ----
@@ -255,9 +332,9 @@
         if (enabled && !container.querySelectorAll('.js-studentRows tr').length) {
             addStudentRow(section);
         }
-        // 隱藏容器內欄位一律 disabled，避免影響必填檢核
+        // 隱藏容器內欄位一律 disabled，避免影響必填檢核；已儲存鎖定的欄位維持鎖定
         container.querySelectorAll('input, select, button').forEach(function (control) {
-            control.disabled = !enabled;
+            control.disabled = !enabled || isSavedRowField(control);
         });
         refreshAll();
     }
@@ -269,35 +346,58 @@
         section.querySelector('.js-addStudent').addEventListener('click', function () {
             addStudentRow(section);
         });
-        // 刪除按鈕採事件代理：學生列為動態產生
+        // 儲存／編輯／刪除按鈕採事件代理：學生列為動態產生
         section.querySelector('.js-studentRows').addEventListener('click', function (event) {
-            var btn = event.target.closest('.js-removeStudent');
-            if (!btn) { return; }
-            btn.closest('tr').remove();
-            renumberRows(section);
-            refreshAll();
+            var saveBtn = event.target.closest('.js-saveStudent');
+            if (saveBtn) {
+                saveStudentRow(saveBtn.closest('tr'));
+                return;
+            }
+            var editBtn = event.target.closest('.js-editStudent');
+            if (editBtn) {
+                editStudentRow(editBtn.closest('tr'));
+                return;
+            }
+            var removeBtn = event.target.closest('.js-removeStudent');
+            if (removeBtn) {
+                removeBtn.closest('tr').remove();
+                renumberRows(section);
+                refreshAll();
+            }
         });
     });
 
-    // ---- 檔案選擇後顯示檔名 ----
+    // ---- 檔案選擇後顯示檔名，並顯示／隱藏該欄位對應的「儲存」按鈕 ----
     form.querySelectorAll('.js-fileInput').forEach(function (input) {
         input.addEventListener('change', function () {
             var help = document.getElementById(input.getAttribute('data-help'));
             if (help) {
                 help.textContent = input.files.length ? '已選擇：' + input.files[0].name : '尚未選擇檔案，格式限 pdf，單檔上限 10MB';
             }
+            var uploadSaveBtn = form.querySelector('.js-uploadSave[data-upload-save="' + input.id + '"]');
+            if (uploadSaveBtn) { uploadSaveBtn.hidden = !input.files.length; }
+            // 重新選擇檔案後須重新按「儲存」才算已上傳
+            if (state.uploaded.hasOwnProperty(input.id)) { state.uploaded[input.id] = false; }
         });
     });
 
-    // ---- 下載報名表：點擊即標記完成（後端：改由下載紀錄判斷）----
-    document.querySelectorAll('.js-downloadForm').forEach(function (link, index) {
+    // ---- 上傳欄位「儲存」：與底部通用儲存共用「儲存成功」提示（後端：實際寫入由後端接手）----
+    form.querySelectorAll('.js-uploadSave').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var fieldId = btn.getAttribute('data-upload-save');
+            if (state.uploaded.hasOwnProperty(fieldId)) { state.uploaded[fieldId] = true; }
+            var modal = new bootstrap.Modal(document.getElementById('saveSuccessModal'));
+            modal.show();
+            refreshAll();
+        });
+    });
+
+    // ---- 下載報名表：未送出前不可點擊 ----
+    document.querySelectorAll('.js-downloadForm').forEach(function (link) {
         link.addEventListener('click', function (event) {
             if (link.getAttribute('aria-disabled') === 'true') {
                 event.preventDefault();
-                return;
             }
-            state.downloaded[index] = true;
-            refreshAll();
         });
     });
 
@@ -327,7 +427,7 @@
             return;
         }
 
-        if (key === 'upload') {
+        if (key === 'download') {
             completeApplication();
             return;
         }

@@ -158,6 +158,35 @@
     }
 }
 
+// ---- 表格下方提示：md 以上表格有橫向捲動時提醒使用者 ----
+.data-table-scrollHint {
+    margin: 8px 0 0;
+    color: $danger-100;
+    font-size: .9375rem;
+
+    @media (max-width: 767.98px) {
+        display: none; // < md 已轉直式區塊，無橫向捲動可提示
+    }
+}
+
+// ---- 已儲存學生列：編輯／刪除併排 ----
+.data-table-actionGroup {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (max-width: 767.98px) {
+    .cell-sticky .data-table-actionGroup {
+        width: 100%;
+    }
+
+    .cell-sticky .data-table-actionGroup .btnRounded {
+        flex: 1 1 0;
+        width: auto;
+    }
+}
+
 // ---- 表格上方工具列：科別標題＋新增整列按鈕 ----
 .data-tableToolbar {
     display: flex;

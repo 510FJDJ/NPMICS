@@ -4,7 +4,7 @@
 //       步驟可自由點選瀏覽、步驟列捲動貼頂（is-pinned）
 // 各頁面以 window.npmicsWizard.init(config) 掛載：
 //   config.steps        步驟 key 順序陣列
-//   config.getStepState 回傳 { status: 'done'|'pending'|'notstarted', sub: '副標文字' }
+//   config.getStepState 回傳 { status: 'done'|'pending'|'notstarted', sub: '副標文字', activeSub: '本步驟為目前步驟時顯示的副標文字（選填，預設「填寫中」）' }
 //                       （active 狀態由引擎依目前步驟自行判斷）
 //   config.onStepChange 切換步驟後回呼（更新操作列等頁面邏輯）
 // ============================================================
@@ -36,7 +36,7 @@
             if (key === currentStep) {
                 item.classList.add('is-active');
                 item.setAttribute('aria-current', 'step');
-                sub.textContent = state.status === 'done' ? state.sub : '填寫中';
+                sub.textContent = state.status === 'done' ? state.sub : (state.activeSub || '填寫中');
             } else {
                 if (state.status === 'done') { item.classList.add('is-done'); }
                 if (state.status === 'pending') { item.classList.add('is-pending'); }

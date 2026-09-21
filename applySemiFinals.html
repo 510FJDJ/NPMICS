@@ -29,7 +29,7 @@
             <h1>複賽報名</h1>
         </div>
 
-        <!-- 步驟列：sticky 固定位置（PM 需求），1、2、4 步驟依填寫情況顯示完成狀態；--overlap 疊上橫幅背景增加層次感 -->
+        <!-- 步驟列：sticky 固定位置（PM 需求），1、2、3 步驟依填寫情況顯示完成狀態；--overlap 疊上橫幅背景增加層次感 -->
         <div class="wizardStepperBar wizardStepperBar--overlap" id="wizardStepperBar">
             <div class="container">
                 <nav class="stepperLg" id="wizardStepper" aria-label="報名進度">
@@ -58,18 +58,8 @@
                             <span class="stepperLg-num">3</span>
                             <i class="bi bi-check-lg stepperLg-check" aria-hidden="true"></i>
                         </span>
-                        <span class="stepperLg-label">下載報名表</span>
+                        <span class="stepperLg-label">下載並上傳簽核後報名表</span>
                         <span class="stepperLg-sub">未開始</span>
-                    </button>
-                    <div class="stepperLg-line" aria-hidden="true"></div>
-
-                    <button type="button" class="stepperLg-item" data-step-key="upload">
-                        <span class="stepperLg-circle">
-                            <span class="stepperLg-num">4</span>
-                            <i class="bi bi-check-lg stepperLg-check" aria-hidden="true"></i>
-                        </span>
-                        <span class="stepperLg-label">上傳簽核後報名表</span>
-                        <span class="stepperLg-sub">尚未上傳</span>
                     </button>
                 </nav>
             </div>
@@ -79,7 +69,7 @@
         <section class="wizardContentSection">
             <div class="container">
                 <div class="row justify-content-center">
-                <div class="col-lg-10">
+                <div class="col-lg-12">
                 <form id="semiFinalsForm" novalidate>
 
                     <!-- 步驟一：學校、承辦人、領隊資料 -->
@@ -95,7 +85,7 @@
 
                             <p class="formSection-hint">
                                 <i class="bi bi-info-circle" aria-hidden="true"></i>
-                                學校名稱、學校總班級數、普通科班級數由系統統一匯入帶入，學校不須填寫
+                                學校名稱、學校總班級數、普通科班級數由系統預先帶入，如有異動請自行修改
                             </p>
 
                             <div class="row g-4">
@@ -104,8 +94,8 @@
                                         <label class="formField-label" for="schoolName">學校名稱（獎狀上的學校全銜）
                                             <span class="requiredPill">必填</span>
                                         </label>
-                                        <!-- 後端：系統匯入帶入，唯讀 -->
-                                        <input class="inputText" type="text" id="schoolName" name="schoolName" value="基隆市立中山高級中學" readonly required>
+                                        <!-- 後端：系統匯入預帶值，開放編輯 -->
+                                        <input class="inputText" type="text" id="schoolName" name="schoolName" value="基隆市立中山高級中學" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -113,8 +103,8 @@
                                         <label class="formField-label" for="schoolClassTotal">學校 總 班級數
                                             <span class="requiredPill">必填</span>
                                         </label>
-                                        <!-- 後端：系統匯入帶入，唯讀 -->
-                                        <input class="inputText" type="text" id="schoolClassTotal" name="schoolClassTotal" value="45" readonly required>
+                                        <!-- 後端：系統匯入預帶值，開放編輯 -->
+                                        <input class="inputText" type="text" id="schoolClassTotal" name="schoolClassTotal" value="45" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -130,8 +120,8 @@
                                         <label class="formField-label" for="schoolClassRegular">學校 普通科 班級數
                                             <span class="requiredPill">必填</span>
                                         </label>
-                                        <!-- 後端：系統匯入帶入，唯讀 -->
-                                        <input class="inputText" type="text" id="schoolClassRegular" name="schoolClassRegular" value="40" readonly required>
+                                        <!-- 後端：系統匯入預帶值，開放編輯 -->
+                                        <input class="inputText" type="text" id="schoolClassRegular" name="schoolClassRegular" value="40" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -220,8 +210,8 @@
                                             <div class="formField">
                                                 <label class="formField-label" for="leaderBioPhyMeal">餐食選項 <span class="requiredPill">必填</span></label>
                                                 <select class="selectField" id="leaderBioPhyMeal" name="leaderBioPhyMeal" required>
-                                                    <option value="" selected disabled>請選擇</option>
-                                                    <option value="meat">葷食</option>
+                                                    <option value="" disabled>請選擇</option>
+                                                    <option value="meat" selected>葷食</option>
                                                     <option value="veg">素食</option>
                                                 </select>
                                             </div>
@@ -247,8 +237,8 @@
                                             <div class="formField">
                                                 <label class="formField-label" for="leaderMathMeal">餐食選項 <span class="requiredPill">必填</span></label>
                                                 <select class="selectField" id="leaderMathMeal" name="leaderMathMeal" required>
-                                                    <option value="" selected disabled>請選擇</option>
-                                                    <option value="meat">葷食</option>
+                                                    <option value="" disabled>請選擇</option>
+                                                    <option value="meat" selected>葷食</option>
                                                     <option value="veg">素食</option>
                                                 </select>
                                             </div>
@@ -274,8 +264,8 @@
                                             <div class="formField">
                                                 <label class="formField-label" for="leaderCheInfoMeal">餐食選項 <span class="requiredPill">必填</span></label>
                                                 <select class="selectField" id="leaderCheInfoMeal" name="leaderCheInfoMeal" required>
-                                                    <option value="" selected disabled>請選擇</option>
-                                                    <option value="meat">葷食</option>
+                                                    <option value="" disabled>請選擇</option>
+                                                    <option value="meat" selected>葷食</option>
                                                     <option value="veg">素食</option>
                                                 </select>
                                             </div>
@@ -301,8 +291,8 @@
                                             <div class="formField">
                                                 <label class="formField-label" for="leaderEsMeal">餐食選項 <span class="requiredPill">必填</span></label>
                                                 <select class="selectField" id="leaderEsMeal" name="leaderEsMeal" required>
-                                                    <option value="" selected disabled>請選擇</option>
-                                                    <option value="meat">葷食</option>
+                                                    <option value="" disabled>請選擇</option>
+                                                    <option value="meat" selected>葷食</option>
                                                     <option value="veg">素食</option>
                                                 </select>
                                             </div>
@@ -381,6 +371,7 @@
                                         <tbody class="js-studentRows"></tbody>
                                     </table>
                                 </div>
+                                <p class="data-table-scrollHint">★請向右移動平滑捲動軸可顯示更多填寫欄位。</p>
                             </div>
                         </div>
 
@@ -426,6 +417,7 @@
                                         <tbody class="js-studentRows"></tbody>
                                     </table>
                                 </div>
+                                <p class="data-table-scrollHint">★請向右移動平滑捲動軸可顯示更多填寫欄位。</p>
                             </div>
                         </div>
 
@@ -471,6 +463,7 @@
                                         <tbody class="js-studentRows"></tbody>
                                     </table>
                                 </div>
+                                <p class="data-table-scrollHint">★請向右移動平滑捲動軸可顯示更多填寫欄位。</p>
                             </div>
                         </div>
 
@@ -516,6 +509,7 @@
                                         <tbody class="js-studentRows"></tbody>
                                     </table>
                                 </div>
+                                <p class="data-table-scrollHint">★請向右移動平滑捲動軸可顯示更多填寫欄位。</p>
                             </div>
                         </div>
 
@@ -561,6 +555,7 @@
                                         <tbody class="js-studentRows"></tbody>
                                     </table>
                                 </div>
+                                <p class="data-table-scrollHint">★請向右移動平滑捲動軸可顯示更多填寫欄位。</p>
                             </div>
                         </div>
 
@@ -606,17 +601,18 @@
                                         <tbody class="js-studentRows"></tbody>
                                     </table>
                                 </div>
+                                <p class="data-table-scrollHint">★請向右移動平滑捲動軸可顯示更多填寫欄位。</p>
                             </div>
                         </div>
                     </section>
 
-                    <!-- 步驟三：下載報名表 -->
+                    <!-- 步驟三：下載並上傳簽核後報名表 -->
                     <section class="wizardPanel" data-step-panel="download" hidden>
-                        <h2 class="visually-hidden">步驟三：下載報名表</h2>
+                        <h2 class="visually-hidden">步驟三：下載並上傳簽核後報名表</h2>
 
                         <p class="formSection-hint formSection-hint--warn" data-step-lock-notice hidden>
                             <i class="bi bi-lock-fill" aria-hidden="true"></i>
-                            請先完成前面步驟並按「送出並產生報名表」，才能下載報名表（可先瀏覽內容）
+                            請先完成前面步驟並按「送出並產生報名表」，才能下載並上傳簽核後報名表（可先瀏覽內容）
                         </p>
 
                         <div class="formSection">
@@ -626,9 +622,9 @@
                                 </div>
                             </div>
 
-                            <p class="formSection-hint">
-                                <i class="bi bi-info-circle" aria-hidden="true"></i>
-                                報名表內容為步驟一、二填寫的資料；下載後請完成校內簽核（承辦人、教務主任、校長）並掃描成 pdf 檔，於下一步驟上傳
+                            <p class="formSection-hint formSection-hint--warn">
+                                <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                                報名表內容為步驟一、二填寫的資料；下載後請完成校內簽核（承辦人、教務主任、校長）並掃描成 pdf 檔，於下方上傳
                             </p>
 
                             <div class="flex-row-center flex-wrap gap-4">
@@ -641,16 +637,6 @@
                                 </a>
                             </div>
                         </div>
-                    </section>
-
-                    <!-- 步驟四：上傳簽核後報名表 -->
-                    <section class="wizardPanel" data-step-panel="upload" hidden>
-                        <h2 class="visually-hidden">步驟四：上傳簽核後報名表</h2>
-
-                        <p class="formSection-hint formSection-hint--warn" data-step-lock-notice hidden>
-                            <i class="bi bi-lock-fill" aria-hidden="true"></i>
-                            請先完成前面步驟並下載報名表，才能上傳簽核後報名表（可先瀏覽內容）
-                        </p>
 
                         <div class="formSection">
                             <div class="formSection-header">
@@ -672,6 +658,7 @@
                                             <span class="uploadBtn-help" id="signedFormGroupAHelp">尚未選擇檔案，格式限 pdf，單檔上限 10MB</span>
                                             <input type="file" id="signedFormGroupA" name="signedFormGroupA" class="sr-only js-fileInput" accept=".pdf" data-help="signedFormGroupAHelp" required>
                                         </div>
+                                        <button type="button" class="btnRounded btn-indigo btn-compact js-uploadSave" data-upload-save="signedFormGroupA" hidden>儲存</button>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -686,6 +673,7 @@
                                             <span class="uploadBtn-help" id="signedFormGroupBHelp">尚未選擇檔案，格式限 pdf，單檔上限 10MB</span>
                                             <input type="file" id="signedFormGroupB" name="signedFormGroupB" class="sr-only js-fileInput" accept=".pdf" data-help="signedFormGroupBHelp" required>
                                         </div>
+                                        <button type="button" class="btnRounded btn-indigo btn-compact js-uploadSave" data-upload-save="signedFormGroupB" hidden>儲存</button>
                                     </div>
                                 </div>
                             </div>
@@ -700,7 +688,7 @@
 
                             <ul class="submitModal-noticeList mb-4" role="note">
                                 <li>1. 資料送出後就不可以再修改。</li>
-                                <li>2. 報名表下載後，務必將簽核後報名表掃描上傳才算完成報名，並了解送出後除特殊情形外不得自行修改。</li>
+                                <li>2. 報名表下載後，務必將簽核後報名表掃描上傳才算完成報名。</li>
                             </ul>
 
                             <!-- 整張卡片（含文字）皆可點選勾選，外框線與底色隨勾選狀態變化 -->
@@ -802,12 +790,44 @@
                 <input class="inputText" type="email" data-tpl="input" data-field="TeacherEmail" placeholder="請輸入 Email" required>
             </span></td>
             <td data-label="操作" class="cell-sticky"><span class="cell-value">
-                <button type="button" class="btnRounded btn-outlineDanger btn-compact js-removeStudent">
-                    刪除<i class="bi bi-trash3" aria-hidden="true"></i>
-                </button>
+                <span class="data-table-actionGroup js-unsavedActions">
+                    <button type="button" class="btnRounded btn-indigo btn-compact js-saveStudent">
+                        儲存
+                    </button>
+                    <button type="button" class="btnRounded btn-outlineDanger btn-compact btn-iconOnly js-removeStudent">
+                        <i class="bi bi-trash3" aria-hidden="true"></i>
+                    </button>
+                </span>
+                <span class="data-table-actionGroup js-savedActions" hidden>
+                    <button type="button" class="btnRounded btn-outline btn-compact js-editStudent">
+                        編輯
+                    </button>
+                    <button type="button" class="btnRounded btn-outlineDanger btn-compact btn-iconOnly js-removeStudent">
+                        <i class="bi bi-trash3" aria-hidden="true"></i>
+                    </button>
+                </span>
             </span></td>
         </tr>
     </template>
+
+    <!-- 步驟二：科別選派人數已達上限提示 Modal -->
+    <div class="modal fade submitModal submitModal--center" id="quotaLimitModal" tabindex="-1" aria-labelledby="quotaLimitTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="關閉"></button>
+                </div>
+                <div class="modal-body">
+                    <span class="submitModal-successIcon submitModal-warnIcon" aria-hidden="true"><i class="bi bi-exclamation-triangle-fill"></i></span>
+                    <h2 class="submitModal-title" id="quotaLimitTitle">已達選派人數上限</h2>
+                    <p class="submitModal-desc" id="quotaLimitDesc">已達選派人數上限，無法再新增學生。</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btnRounded btn-indigo" data-bs-dismiss="modal">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 步驟二「送出並產生報名表」確認 Modal -->
     <div class="modal fade submitModal" id="generateConfirmModal" tabindex="-1" aria-labelledby="generateConfirmTitle" aria-hidden="true">
@@ -842,7 +862,7 @@
                 <div class="modal-body">
                     <span class="submitModal-successIcon" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
                     <h2 class="submitModal-title" id="saveSuccessTitle">儲存成功</h2>
-                    <p class="submitModal-desc">已保留目前填寫進度，可隨時回來繼續填寫。</p>
+                    <p class="submitModal-desc">已保留目前填寫進度，可隨時回來重新上傳。</p>
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btnRounded btn-indigo" data-bs-dismiss="modal">確認</button>

@@ -16183,6 +16183,11 @@ textarea:focus-visible {
   min-height: 44px;
   padding: 6px 16px;
 }
+.btnRounded.btn-iconOnly {
+  width: 44px;
+  padding: 6px;
+  gap: 0;
+}
 .btnRounded[aria-disabled=true] {
   background-color: #F8FAFC;
   border-color: #E2E8F0;
@@ -16454,6 +16459,10 @@ textarea.inputText {
   flex-wrap: wrap;
   align-items: center;
   gap: 12px;
+}
+
+.js-uploadSave {
+  align-self: flex-start;
 }
 
 .formSection {
@@ -16841,6 +16850,7 @@ textarea.inputText {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-left: auto;
 }
 
 .wizardActionBar-nextHint {
@@ -16996,6 +17006,32 @@ textarea.inputText {
   }
   .data-table .cell-sticky .btnRounded {
     width: 100%;
+  }
+}
+.data-table-scrollHint {
+  margin: 8px 0 0;
+  color: #B91C1C;
+  font-size: 0.9375rem;
+}
+@media (max-width: 767.98px) {
+  .data-table-scrollHint {
+    display: none;
+  }
+}
+
+.data-table-actionGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 767.98px) {
+  .cell-sticky .data-table-actionGroup {
+    width: 100%;
+  }
+  .cell-sticky .data-table-actionGroup .btnRounded {
+    flex: 1 1 0;
+    width: auto;
   }
 }
 .data-tableToolbar {
@@ -17333,13 +17369,17 @@ textarea.inputText {
   font-size: 2rem;
 }
 
+.submitModal-warnIcon {
+  border-color: #B45309;
+  color: #B45309;
+}
+
 .submitModal--center .modal-body {
   text-align: center;
 }
 
 .submitModal-noticeList {
   display: flex;
-  flex-direction: column;
   gap: 8px;
   margin: 12px 0 0;
   padding: 12px 14px;

@@ -93,6 +93,13 @@
         padding: 6px 16px;
     }
 
+    // 純圖示按鈕：無文字，維持正方形觸控範圍（表格操作欄「刪除」用，靠 aria-label 提供無障礙名稱）
+    &.btn-iconOnly {
+        width: 44px;
+        padding: 6px;
+        gap: 0;
+    }
+
     // Disabled：一律 aria-disabled（不可用原生 disabled），原因用 aria-describedby 指向說明文字
     &[aria-disabled="true"] {
         background-color: $bg-100;

@@ -263,3 +263,8 @@ textarea.inputText {
     align-items: center;
     gap: 12px;
 }
+
+// 上傳後才出現的欄位獨立儲存按鈕：避免被 .formField（flex column）拉伸成滿版寬度
+.js-uploadSave {
+    align-self: flex-start;
+}

@@ -168,6 +168,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    // 步驟三隱藏左側儲存提示文字後，避免 space-between 讓按鈕跑到最左邊
+    margin-left: auto;
 }
 
 // 「下一步」停用原因說明：不可只靠 tooltip，需常駐顯示在按鈕旁

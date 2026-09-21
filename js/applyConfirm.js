@@ -1,7 +1,7 @@
 // ============================================================
 // 報名確認頁專屬腳本（Vanilla JS）
 // 職責：是否報名切換切結書區塊、檔案選擇顯示檔名、
-//       儲存檢核與成功 Modal、選「報名」時導向四步驟報名頁
+//       儲存檢核與成功 Modal、選「報名」時導向三步驟報名頁
 // ============================================================
 (function () {
     'use strict';
@@ -53,7 +53,7 @@
         modal.show();
     });
 
-    // ---- 成功 Modal 確認：選「報名」時前往四步驟報名頁 ----
+    // ---- 成功 Modal 確認：選「報名」時前往三步驟報名頁 ----
     btnSuccessOk.addEventListener('click', function () {
         if (decisionSelect.value === 'yes') {
             window.location.href = 'applySemiFinals.html';

@@ -107,19 +107,11 @@
     display: none;
 }
 
-// ---- 底部固定操作列：滿版視窗寬度，內容置中對齊內容寬度 ----
+// ---- 底部操作列：置於報名卡片下方、隨頁面捲動（PM 需求：不固定於視窗底部）----
 .wizardActionBar {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 20;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    border-top: 1px solid $border-100;
-    background: rgba(255, 255, 255, .92);
-    box-shadow: 0 -6px 24px rgba(23, 63, 143, .10);
-    backdrop-filter: blur(12px);
+    margin-bottom: 32px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .wizardActionBar-inner {
@@ -187,15 +179,9 @@
     font-size: 1rem;
 }
 
-// ---- 為固定底部操作列預留空間，避免內容被遮住 ----
 .wizardContentSection {
     padding-top: 24px;
-    padding-bottom: 140px;
-}
-
-// 底部操作列存在時，置頂按鈕上移避免被遮住
-body.hasWizardActionBar .scroll-top-btn {
-    bottom: 110px;
+    padding-bottom: 40px;
 }
 
 @media (max-width: $breakpoint-single) {
@@ -215,10 +201,6 @@ body.hasWizardActionBar .scroll-top-btn {
     .wizardActionBar-buttons .btnRounded {
         flex: 1 1 auto;
         min-width: 130px;
-    }
-
-    body.hasWizardActionBar .scroll-top-btn {
-        bottom: 170px;
     }
 
     // 手機版橫幅較矮，縮小步驟列重疊量避免遮住橫幅標題

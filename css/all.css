@@ -16784,17 +16784,9 @@ textarea.inputText {
 }
 
 .wizardActionBar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 20;
-  padding-top: 14px;
-  padding-bottom: 14px;
-  border-top: 1px solid #E2E8F0;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 -6px 24px rgba(23, 63, 143, 0.1);
-  backdrop-filter: blur(12px);
+  margin-bottom: 32px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .wizardActionBar-inner {
@@ -16861,11 +16853,7 @@ textarea.inputText {
 
 .wizardContentSection {
   padding-top: 24px;
-  padding-bottom: 140px;
-}
-
-body.hasWizardActionBar .scroll-top-btn {
-  bottom: 110px;
+  padding-bottom: 40px;
 }
 
 @media (max-width: 992px) {
@@ -16882,9 +16870,6 @@ body.hasWizardActionBar .scroll-top-btn {
   .wizardActionBar-buttons .btnRounded {
     flex: 1 1 auto;
     min-width: 130px;
-  }
-  body.hasWizardActionBar .scroll-top-btn {
-    bottom: 170px;
   }
   .wizardStepperBar--overlap {
     margin-top: -40px;

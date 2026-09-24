@@ -69,9 +69,9 @@
 
 .wizardStepperBar.is-pinned {
     padding: 6px 0;
-    border-bottom-color: $border-100;
-    background-color: rgba(255, 255, 255, .92);
-    box-shadow: 0 8px 24px rgba(23, 63, 143, .08);
+    border-bottom-color: $primary-100;
+    background-color: $white;
+    box-shadow: 0 8px 24px rgba(23, 63, 143, .16);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(8px);
 }
@@ -83,17 +83,19 @@
 .wizardStepperBar.is-pinned .stepperLg-circle {
     width: 30px;
     height: 30px;
+    margin-bottom: 4px;
     font-size: .9375rem;
 }
 
 .wizardStepperBar.is-pinned .stepperLg-line {
-    margin-top: 22px;
+    margin-top: 18px;
 }
 
 .wizardStepperBar.is-pinned .stepperLg-sub {
-    max-height: 0;
+    max-height: 20px;
     margin-top: 0;
-    opacity: 0;
+    font-size: .875rem;
+    opacity: 1;
 }
 
 // 複賽報名頁：步驟列稍微上移疊在橫幅背景上（PM 需求），下方 .wizardContentSection 白色卡片隨之一起上移；

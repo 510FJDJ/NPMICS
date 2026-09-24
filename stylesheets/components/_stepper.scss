@@ -56,7 +56,7 @@
 
 .stepperLg-label {
     color: $text-200;
-    font-size: 1rem;
+    font-size: .9375rem;
     font-weight: 500;
     white-space: nowrap;
 }
@@ -64,7 +64,7 @@
 .stepperLg-sub {
     overflow: hidden;
     color: $gray-100;
-    font-size: .9375rem;
+    font-size: 1rem;
     font-weight: 400;
     opacity: 1;
     transition: max-height $dur-pin $ease-brand, margin-top $dur-pin $ease-brand, opacity $dur-pin $ease-brand;
